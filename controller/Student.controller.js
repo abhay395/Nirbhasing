@@ -55,6 +55,7 @@ exports.findAll = async (req, res) => {
               $cond: [
                 { $eq: ["$year", 1] },
                 {
+                  _id: "$_id",
                   name: "$name",
                   image: "$image",
                   cgpa: "$cgpa",
@@ -69,6 +70,7 @@ exports.findAll = async (req, res) => {
               $cond: [
                 { $eq: ["$year", 2] },
                 {
+                  _id: "$_id",
                   name: "$name",
                   image: "$image",
                   cgpa: "$cgpa",
@@ -83,6 +85,7 @@ exports.findAll = async (req, res) => {
               $cond: [
                 { $eq: ["$year", 3] },
                 {
+                  _id: "$_id",
                   name: "$name",
                   image: "$image",
                   cgpa: "$cgpa",

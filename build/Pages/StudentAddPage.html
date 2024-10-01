@@ -2,188 +2,226 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GNSPSC : Computer Science Department</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Open+Sans:wght@300;400;600&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="/indexStyle.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Student Data</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* Filter Styling */
+        .filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        select,
+        input {
+            padding: 5px;
+            margin: 5px 0;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="/index.html">
-        <img src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727056797/gnspsc_logo_dcadn4.png"
-          alt="GNSPSC Logo" height="50" />
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item active">
-            <a class="nav-link text" href="/index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Pages/AboutPage.html">About Us</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              People
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="../Pages/facultypage.html">Faculty</a></li>
-              <li><a class="dropdown-item" href="../Pages/StaffPage.html">Staff</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Pages/ReserchPage.html">Research</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Students
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="../Pages/BscStudentpage.html">BSc</a></li>
-              <li><a class="dropdown-item" href="../Pages/BCAStudentpage.html">BCA</a></li>
-              <li><a class="dropdown-item" href="../Pages/MscStudentpage.html">MSc</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Pages/Time_TablePage.html">Time Table</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div id='alert' style="position: absolute; display: none;" class="panding-data alert alert-primary alert-dismissible fade show" role="alert">
-    <strong>Please wait Data Uploading...</strong>
-  </div>
-  <div id="alerts" style="position: absolute;">
+        <h1>Student Management Panel</h1>
 
-  </div>
-  <!-- Add Student Form -->
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="shadow">
-          <div class="p-2 card-header bg-primary text-white text-center">
-            <h3>Add a Student</h3>
-          </div>
-          <div class="card-body p-4">
-            <form>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label for="name" class="form-label">Student Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Enter student's name"
-                    required />
-                </div>
-                <div class="col-md-6">
-                  <label for="cgpa" class="form-label">CGPA</label>
-                  <input type="text" class="form-control" id="cgpa" name="cgpa" placeholder="Enter CGPA" required />
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label for="course" class="form-label">Course</label>
-                  <select class="form-control" id="course" name="course" required>
-                    <option value="" disabled selected>Select Course</option>
-                    <option value="Bsc.cs">Bsc.cs</option>
-                    <option value="Msc.cs">Msc.cs</option>
-                    <option value="BCA">BCA</option>
-                  </select>
-                </div>
-                <div class="col-md-6">
-                  <label for="year" class="form-label">Year</label>
-                  <select class="form-control" id="year" name="year" required>
-                    <option value="" disabled selected>Select Year</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label for="rank" class="form-label">Rank</label>
-                  <input type="number" class="form-control" id="rank" name="rank" placeholder="Enter rank" required />
-                </div>
-                <div class="col-md-6">
-                  <label for="examYear" class="form-label">Exam Year</label>
-                  <input type="number" class="form-control" id="examYear" name="examYear"
-                    placeholder="Enter exam year like 2023" required />
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
-                <input class="form-control" type="file" id="image" name="image" accept="image/*" required />
-              </div>
-              <div class="d-grid">
-                <button id='add-btn' type="submit" class="btn btn-success btn-lg">Add Student</button>
-              </div>
-            </form>
-          </div>
+        <!-- Filter Section -->
+        <div class="filter">
+            <label for="courseSelect">Select Course:</label>
+            <select id="courseSelect" onchange="loadCourseData()">
+                <option value="BCA">BCA</option>
+                <option value="Bsc.cs">Bsc.cs</option>
+                <option value="Msc.cs">Msc.cs</option>
+            </select>
+            <select id="yearSelect" onchange="loadYearData()">
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+            </select>
         </div>
-      </div>
-    </div>
-  </div>
+        <!-- Form to Add New Student -->
+        <h2>Add New Student</h2>
+        <form id="addStudentForm">
+            <!-- name -->
+            <label for="name" class="form-label">Student Name</label>
+            <input type="text" class="form-control" id="newStudentName" name="name" placeholder="Enter student's name"
+                required />
+                <!-- cgpa -->
+            <label for="cgpa" class="form-label">CGPA</label>
+            <input type="text" class="form-control" id="newStudentcgpa" name="cgpa" placeholder="Enter CGPA" required />
+            <!-- rank -->
+            <label for="rank" class="form-label">Rank</label>
+            <input type="number" class="form-control" id="newStudentRank" name="rank" placeholder="Enter rank" required />
+            <!-- year -->
+            <label for="newStudentYear">Select Year:</label>
+            <select id="newStudentYear" required>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+            </select><br>
+            <!-- exam year -->
+            <!-- <label for="examYear" class="form-label">Exam Year</label>
+            <input type="number" class="form-control" id="examYear" name="examYear"
+              placeholder="Enter exam year like 2023" required /> -->
+              <!-- image -->
+            <label for="image" class="form-label">Upload Image</label>
+            <input class="form-control" type="file" id="newStudentImage" name="image" accept="image/*" required /><br>
+            <!-- add data -->
+            <button type="button" onclick="addStudent()">Add Teacher</button>
+        </form>
+        <!-- Tables for Student Data -->
+        
+        <h2>1st Year Students</h2>
+        <table id="firstYearTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>CGPA</th>
+                    <th>Rank</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-  <div class="container">
-    <h1>All students</h1>
-    <div id="all-students"></div>
-  </div>
+        <h2>2nd Year Students</h2>
+        <table id="secondYearTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>CGPA</th>
+                    <th>Rank</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
-  <!-- Footer -->
-  <footer class="footer mt-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <h5>email Us</h5>
-          <ul class="list-unstyled">
-            <li>
-              <i class="fas fa-map-marker-alt"></i>&nbsp; A. B. Road
-              Bhawarkuwan Indore, MP, India
-            </li>
-            <li><i class="fas fa-phone"></i> &nbsp;+91-731-2970017</li>
-            <li><i class="fas fa-envelope"></i>&nbsp; gnspsc@gmail.com</li>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <h5>Quick Links</h5>
-          <ul class="list-unstyled">
-            <li>
-              <a href="/Pages/AboutPage.html" class="nav-link">About</a>
-            </li>
-            <li>
-              <a href="/Pages/ReserchPage.html" class="nav-link">Research</a>
-            </li>
-            <li>
-              <a href="/Pages/facultypage.html" class="nav-link">Faculty</a>
-            </li>
-            <li><a href="/index.html" class="nav-link">Home</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 text-center social-boxes">
-          <h5>Follow Us</h5>
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin"></i></a>
-        </div>
-      </div>
+        <h2>3rd Year Students</h2>
+        <table id="thirdYearTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>CGPA</th>
+                    <th>Rank</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+
     </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../JavascriptAll/StudentAdd.js"></script>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Edit Student</h2>
+            <label for="studentName">Name:</label>
+            <input type="text" id="studentName"><br>
+            <label for="studentCgpa">CGPA:</label>
+            <input type="number" id="studentCgpa"><br>
+            <label for="studentRank">Rank:</label>
+            <input type="number" id="studentRank"><br>
+            <button onclick="saveEdit()">Save</button>
+        </div>
+    </div>
+
+    <script src="../JavascriptAll/StudentAdd.js"></script>
 </body>
 
 </html>
