@@ -1,4 +1,4 @@
 node_modules/
-.env/
-.vercel/
-ak.js/
+.env
+.vercel
+ak.js
