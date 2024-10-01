@@ -27,8 +27,8 @@ const populateTable = (teachers) => {
                 <td>${teacher.email}</td>
                 <td>${teacher.post}</td>
                 <td>
-                    <button class="edit-btn" onclick="openEditModal(${teacher._id})">Edit</button>
-                    <button class="delete-btn" onclick="deleteTeacher(${teacher._id})">Delete</button>
+                    <button class="edit-btn" onclick="openEditModal('${teacher._id}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteTeacher('${teacher._id}')">Delete</button>
                 </td>
             </tr>
         `;
@@ -117,22 +117,21 @@ const closeModal = () => {
 
 // Delete Teacher
 const deleteTeacher = (id) => {
-  alert('teacher data deleted successfully'+id)
-  // fetch(`/teacher/delete/${id}`, {
-  //   method: "DELETE",
-  // })
-  //   .then((response) => {
-  //     if (response.ok) {
-  //       alert("Teacher data deleted successfully");
-  //       loadTeacherData(); // Reload the table after deletion
-  //     } else {
-  //       alert("Error deleting teacher. Please try again.");
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     console.error("Error deleting teacher:", error);
-  //     alert("Failed to delete the teacher.");
-  //   });
+  fetch(`/teacher/delete/${id}`, {
+    method: "DELETE",
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert("Teacher data deleted successfully");
+        loadTeacherData(); // Reload the table after deletion
+      } else {
+        alert("Error deleting teacher. Please try again.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error deleting teacher:", error);
+      alert("Failed to delete the teacher.");
+    });
 };
 
 // Load teacher data on page load
