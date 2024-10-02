@@ -108,6 +108,32 @@
             right: 10px;
             cursor: pointer;
         }
+    /* Form Styling */
+    form {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    form label {
+        font-weight: bold;
+    }
+
+    form input,
+    form select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+
+    form .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 15px;
+    }
     </style>
 </head>
 
@@ -115,93 +141,70 @@
     <div class="container">
         <h1>Student Management Panel</h1>
 
-        <!-- Filter Section -->
-        <div class="filter">
-            <label for="courseSelect">Select Course:</label>
-            <select id="courseSelect" onchange="loadCourseData()">
-                <option value="BCA">BCA</option>
-                <option value="Bsc.cs">Bsc.cs</option>
-                <option value="Msc.cs">Msc.cs</option>
-            </select>
-            <select id="yearSelect" onchange="loadYearData()">
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-            </select>
-        </div>
         <!-- Form to Add New Student -->
         <h2>Add New Student</h2>
-        <form id="addStudentForm">
+        <form id="addStudentForm" class="row g-3">
             <!-- name -->
-            <label for="name" class="form-label">Student Name</label>
-            <input type="text" class="form-control" id="newStudentName" name="name" placeholder="Enter student's name"
-                required />
-                <!-- cgpa -->
-            <label for="cgpa" class="form-label">CGPA</label>
-            <input type="text" class="form-control" id="newStudentcgpa" name="cgpa" placeholder="Enter CGPA" required />
+            <div class="col-md-6">
+                <label for="name" class="form-label">Student Name</label>
+                <input type="text" class="form-control" id="newStudentName" name="name" placeholder="Enter student's name" required />
+            </div>
+            <!-- cgpa -->
+            <div class="col-md-6">
+                <label for="cgpa" class="form-label">CGPA</label>
+                <input type="text" class="form-control" id="newStudentcgpa" name="cgpa" placeholder="Enter CGPA" required />
+            </div>
             <!-- rank -->
-            <label for="rank" class="form-label">Rank</label>
-            <input type="number" class="form-control" id="newStudentRank" name="rank" placeholder="Enter rank" required />
+            <div class="col-md-6">
+                <label for="rank" class="form-label">Rank</label>
+                <input type="number" class="form-control" id="newStudentRank" name="rank" placeholder="Enter rank" required />
+            </div>
             <!-- year -->
-            <label for="newStudentYear">Select Year:</label>
-            <select id="newStudentYear" required>
-                <option value="1stYear">1st Year</option>
-                <option value="2ndYear">2nd Year</option>
-                <option value="3rdYear">3rd Year</option>
-            </select><br>
+            <div class="col-md-6">
+                <label for="newStudentYear" class="form-label">Select Year:</label>
+                <select id="newStudentYear" class="form-select" required>
+                    <option value="1stYear">1st Year</option>
+                    <option value="2ndYear">2nd Year</option>
+                    <option value="3rdYear">3rd Year</option>
+                </select>
+            </div>
             <!-- exam year -->
-            <label for="examYear" class="form-label">Exam Year</label>
-            <input type="number" class="form-control" id="examYear" name="examYear"
-              placeholder="Enter exam year like 2023" required />
-              <!-- image -->
-            <label for="image" class="form-label">Upload Image</label>
-            <input class="form-control" type="file" id="newStudentImage" name="image" accept="image/*" required /><br>
+            <div class="col-md-6">
+                <label for="examYear" class="form-label">Exam Year</label>
+                <input type="number" class="form-control" id="examYear" name="examYear" placeholder="Enter exam year like 2023" required />
+            </div>
+            <!-- image -->
+            <div class="col-md-6">
+                <label for="image" class="form-label">Upload Image</label>
+                <input class="form-control" type="file" id="newStudentImage" name="image" accept="image/*" required />
+            </div>
             <!-- add data -->
-            <button type="button" onclick="addStudent()">Add Teacher</button>
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" onclick="addStudent()">Add Teacher</button>
+            </div>
         </form>
+        <div class="filter row g-3">
+            <div class="col-md-6">
+                <label for="courseSelect" class="form-label">Select Course:</label>
+                <select id="courseSelect" class="form-select" onchange="loadCourseData()">
+                    <option value="BCA">BCA</option>
+                    <option value="Bsc.cs">Bsc.cs</option>
+                    <option value="Msc.cs">Msc.cs</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="yearSelect" class="form-label">Select Year:</label>
+                <select id="yearSelect" class="form-select" onchange="loadYearData()">
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+        </div>
+        <div id="studentSection">
+            
+        </div>
         <!-- Tables for Student Data -->
-        <h2>1st Year Students</h2>
-        <table id="firstYearTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>CGPA</th>
-                    <th>Rank</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <h2>2nd Year Students</h2>
-        <table id="secondYearTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>CGPA</th>
-                    <th>Rank</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <h2>3rd Year Students</h2>
-        <table id="thirdYearTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>CGPA</th>
-                    <th>Rank</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
 
     </div>
 
