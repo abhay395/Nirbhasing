@@ -277,6 +277,7 @@
         <!-- Form to Add New Student -->
         <h2>Add New Student</h2>
         <form id="addStudentForm" class="row g-3">
+        <form id="addStudentForm" class="row g-3">
             <!-- name -->
             <div class="col-md-6">
                 <label for="name" class="form-label">Student Name</label>
@@ -287,7 +288,20 @@
                 <label for="cgpa" class="form-label">CGPA</label>
                 <input type="text" class="form-control" id="cgpa" name="cgpa" placeholder="Enter CGPA" required />
             </div>
+            <div class="col-md-6">
+                <label for="name" class="form-label">Student Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter student's name" required />
+            </div>
+            <!-- cgpa -->
+            <div class="col-md-6">
+                <label for="cgpa" class="form-label">CGPA</label>
+                <input type="text" class="form-control" id="cgpa" name="cgpa" placeholder="Enter CGPA" required />
+            </div>
             <!-- rank -->
+            <div class="col-md-6">
+                <label for="rank" class="form-label">Rank</label>
+                <input type="number" class="form-control" id="rank" name="rank" placeholder="Enter rank" required />
+            </div>
             <div class="col-md-6">
                 <label for="rank" class="form-label">Rank</label>
                 <input type="number" class="form-control" id="rank" name="rank" placeholder="Enter rank" required />
@@ -306,11 +320,48 @@
                 <label for="image" class="form-label">Upload Image</label>
                 <input class="form-control" type="file" id="image" name="image" accept="image/*" required />
             </div>
+            <div class="col-md-6">
+                <label for="year" class="form-label">Select Year:</label>
+                <select id="year" class="form-select" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <!-- image -->
+            <div class="col-md-6">
+                <label for="image" class="form-label">Upload Image</label>
+                <input class="form-control" type="file" id="image" name="image" accept="image/*" required />
+            </div>
             <!-- add data -->
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Add Student</button>
             </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Add Student</button>
+            </div>
         </form>
+        <div class="filter row g-3">
+            <div class="col-md-6">
+                <label for="course" class="form-label">Select Course:</label>
+                <select id="course" class="form-select" >
+                    <option value="BCA">BCA</option>
+                    <option value="Bsc.cs">Bsc.cs</option>
+                    <option value="Msc.cs">Msc.cs</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="examyear" class="form-label">Select Year:</label>
+                <select id="examyear" class="form-select">
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+        </div>
+        <div id="studentSection">
+            
+        </div>
         <div class="filter row g-3">
             <div class="col-md-6">
                 <label for="course" class="form-label">Select Course:</label>
