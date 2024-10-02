@@ -45,14 +45,14 @@ const addCertificate = () => {
   const name = document.getElementById("newCertificateName").value;
   const description = document.getElementById("newCertiDescription").value;
   const duration = document.getElementById("newCertificateDuration").value;
-  const skillsGained  = document.getElementById("newCertificateSkills").value;
+  const skillsGained = document.getElementById("newCertificateSkills").value;
   const mode = document.getElementById("newCertificateMode").value;
 
   if (!name || !description || !duration || !skillsGained || !mode) {
     alert("Please fill out all fields.");
     return;
   }
-  const data = { name, description, duration, mode, skillsGained  };
+  const data = { name, description, duration, mode, skillsGained };
 
   fetch("/certification", {
     method: "POST",
