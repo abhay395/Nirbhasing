@@ -27,17 +27,17 @@ const getHeadlines = async (req, res) => {
                 _id: null,
                 NewsHeadline: {
                     $push: {
-                        $cond: [{ $eq: ["$type", "News"] }, { description: "$description", type: "$type" }, null]
+                        $cond: [{ $eq: ["$type", "News"] }, { description: "$description", type: "$type",_id: "$_id" }, null]
                     }
                 },
                 Event: {
                     $push: {
-                        $cond: [{ $eq: ["$type", "Event"] }, { description: "$description", type: "$type" }, null]
+                        $cond: [{ $eq: ["$type", "Event"] }, { description: "$description", type: "$type",_id: "$_id" }, null]
                     }
                 },
                 Reqrutement: {
                     $push: {
-                        $cond: [{ $eq: ["$type", "Requritment"] }, { description: "$description", type: "$type" }, null]
+                        $cond: [{ $eq: ["$type", "Requritment"] }, { description: "$description", type: "$type",_id: "$_id" }, null]
                     }
                 }
             }
