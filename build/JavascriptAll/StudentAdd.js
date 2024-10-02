@@ -7,84 +7,7 @@ const nameInput = document.querySelector('#name');
 const cgpaInput = document.querySelector('#cgpa');
 const rankInput = document.querySelector('#rank');
 const imageInput = document.querySelector('#image');
-const StudentSecition = document.querySelector("#studentSection");
-const form = document.querySelector('form')
-const selectYearInput = document.querySelector('#year');
-const selectCourseInput = document.querySelector('#course');
-const selectExamYear = document.querySelector('#examyear');
-const nameInput = document.querySelector('#name');
-const cgpaInput = document.querySelector('#cgpa');
-const rankInput = document.querySelector('#rank');
-const imageInput = document.querySelector('#image');
 
-const examyear = selectExamYear.value
-const course = selectCourseInput.value
-
-const updateData=async({name,cgpa,rank},id)=>{
-  const formdata =new FormData();
-  formdata.append('name',name)
-  formdata.append('cgpa',cgpa)
-  formdata.append('rank',rank)
-  console.log(id)
-  try {
-     const res = await fetch(`/student/update/${id}`, {
-      method: 'PUT',
-      body: formdata
-    })
-    return res
-  } catch (error) {
-    return error
-  }
-}
-const postData=async({name,cgpa,course,year,rank,image,examYear})=>{
-  try {
-    const formdata = new FormData();
-    formdata.append('name',name)
-    formdata.append('cgpa',cgpa)
-    formdata.append('course',course)
-    formdata.append('year',year)
-    formdata.append('rank',rank)
-    formdata.append('image',image)
-    formdata.append('examYear',examYear)
-    const response = await fetch('/student/create', {
-      method: 'POST',
-      body: formdata
-    });
-    const result = await response.json();
-    return result
-  } catch (error) {
-    return null
-  }
-}
-
-
-form.addEventListener('submit',async(e)=>{
-  e.preventDefault()
-  const name = nameInput.value
-  const cgpa = cgpaInput.value
-  const course = selectCourseInput.value
-  const examYear= selectExamYear.value
-  const year = selectYearInput.value
-  const rank = parseFloat(rankInput.value)
-  const image = imageInput.files[0]
- try {
-  await postData({name,cgpa,course,year,rank,image,examYear}).then((data)=>{
-    if(data){
-      alert("data added")
-    }
-    renderData()
-  })
- } catch (error) {
-  console.log(error)
- }
-
-})
-
-const getData = async () => {
-  try {
-    const response = await fetch(`/student/getAll?examYear=${examyear}&course=${course}`);
-    const data = await response.json();
-    return data;
 const examyear = selectExamYear.value
 const course = selectCourseInput.value
 
@@ -156,46 +79,7 @@ const getData = async () => {
   } catch (error) {
     console.log(error);
     return null;
-    console.log(error);
-    return null;
   }
-};
-
-const deleteStudent = async(id)=>{
-  try {
-    const response = await fetch(`/student/delete/${id}`,{
-      method:"DELETE"
-    })
-    return response 
-  } catch (error) {
-    return null
-  }
-}
-const renderData = async () => {
-  try {
-    StudentSecition.innerHTML=''
-    const data = (await getData()) || [];
-    const firstYearStudent = data[0]["1stYearStudents"];
-    const secondYearStudent = data[0]["2ndYearStudents"];
-    const theredYearStudent = data[0]["3rdYearStudents"];
-    console.log(firstYearStudent, secondYearStudent, theredYearStudent);
-   const tableFor1stYear = creatTable(firstYearStudent,"first Year")
-   const tableFor2ndYear = creatTable(secondYearStudent,"first Year")
-   const tableFor3rdYear = creatTable(theredYearStudent,"first Year")
-   const tableArray = [tableFor1stYear,tableFor2ndYear,tableFor3rdYear];
-   let year =1;
-   tableArray.forEach((table)=>{
-    const div = document.createElement('div');
-    const h1 = document.createElement('h1');
-    h1.innerHTML = `${year} Year Student`
-    div.appendChild(h1);
-    div.appendChild(table);
-    year++;
-    StudentSecition.appendChild(div);
-   })
-    // data.forEach(element => {
-
-    // });
 };
 
 const deleteStudent = async(id)=>{
@@ -332,4 +216,6 @@ function sortStudent(tbody){
   })
   // console.log(studentArr);
 }
+
 renderData();
+
