@@ -135,7 +135,7 @@ const getResearch = async (req, res) => {
 const deleteResearch = async (req, res) => {
   try {
     // Check if the ID is provided
-    const {id} = req.params;
+    const { id } = req.params;
     if (id) {
       return res.status(400).json({ message: "Research ID is required" });
     }
@@ -148,13 +148,28 @@ const deleteResearch = async (req, res) => {
     res.status(500).json({ message: "Error deleting research", error });
   }
 };
+
 const updateResearch = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
       return res.status(400).json({ message: "Research ID is required" });
     }
-    const result = await Research.findByIdAndUpdate(id, req.body, {
+    const { type, title, description } = req.body;
+    const updateObj = {};
+    if (type) updateObj.type = type;
+    if (title) updateObj.title = title;
+    if (description) updateObj.description = description;
+    if (type === "Ongoing Research" && req.file.path) {
+      const result = await uploadOncloudinary(req.file.path, "image");
+      if (result.secure_url) {
+        updateObj.image = result.secure_url;
+      }
+      if (!result?.secure_url) {
+        return res.status(500).json({ error: "Error uploading image" });
+      }
+    }
+    const result = await Research.findByIdAndUpdate(id, updateObj, {
       new: true,
     });
     if (!result) {
@@ -164,5 +179,5 @@ const updateResearch = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error updating research", error });
   }
-}
-module.exports = { addResearch, getResearch,deleteResearch };
+};
+module.exports = { addResearch, getResearch, deleteResearch,updateResearch };
