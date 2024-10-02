@@ -117,7 +117,7 @@ const closeModal = () => {
 
 // Delete Teacher
 const deleteTeacher = (id) => {
-  fetch(`/teacher/delete/${id}`, {
+  fetch(`/teacher/${id}`, {
     method: "DELETE",
   })
     .then((response) => {
