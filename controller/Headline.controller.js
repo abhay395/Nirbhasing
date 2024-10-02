@@ -1,7 +1,7 @@
 const { Headline } = require('../models/Headline');
 
 // Create a new headline
-exports.createHeadline = async (req, res) => {
+const createHeadline = async (req, res) => {
     try {
         const { type, description } = req.body;
         const newHeadline = new Headline({ type, description });
@@ -13,7 +13,7 @@ exports.createHeadline = async (req, res) => {
 };
 
 // Get all headlines
-exports.getHeadlines = async (req, res) => {
+const getHeadlines = async (req, res) => {
     try {
         const headlines = await Headline.aggregate(
             [
@@ -71,7 +71,7 @@ exports.getHeadlines = async (req, res) => {
 };
 
 // Get a single headline by ID
-exports.getHeadlineById = async (req, res) => {
+const getHeadlineById = async (req, res) => {
     try {
         const { id } = req.params;
         const headline = await Headline.findById(id);
@@ -85,7 +85,7 @@ exports.getHeadlineById = async (req, res) => {
 };
 
 // Update a headline by ID
-exports.updateHeadline = async (req, res) => {
+const updateHeadline = async (req, res) => {
     try {
         const { id } = req.params;
         const { type, item } = req.body;
@@ -100,7 +100,7 @@ exports.updateHeadline = async (req, res) => {
 };
 
 // Delete a headline by ID
-exports.deleteHeadline = async (req, res) => {
+const deleteHeadline = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedHeadline = await Headline.findByIdAndDelete(id);
@@ -112,3 +112,11 @@ exports.deleteHeadline = async (req, res) => {
         res.status(500).json({ message: 'Error deleting headline', error });
     }
 };
+
+module.exports = {
+    createHeadline,
+    getHeadlines,
+    getHeadlineById,
+    updateHeadline,
+    deleteHeadline
+}

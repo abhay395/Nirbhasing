@@ -134,6 +134,32 @@
         max-width: 50%;
         padding: 0 15px;
     }
+    /* Form Styling */
+    form {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    form label {
+        font-weight: bold;
+    }
+
+    form input,
+    form select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        box-sizing: border-box;
+    }
+
+    form .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding: 0 15px;
+    }
     </style>
 </head>
 
@@ -143,6 +169,7 @@
 
         <!-- Form to Add New Student -->
         <h2>Add New Student</h2>
+        <form id="addStudentForm" class="row g-3">
         <form id="addStudentForm" class="row g-3">
             <!-- name -->
             <div class="col-md-6">

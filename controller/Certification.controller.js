@@ -30,6 +30,10 @@ const getCertifiations = async (req, res) => {
 };
 const deleteCertification = async (req, res) => {
   try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: "Certification ID is required" });
+    }
     const certification = await Certification.findByIdAndDelete(req.params.id);
     if (!certification) {
       return res.status(404).json({ message: "Certification not found" });
@@ -41,9 +45,22 @@ const deleteCertification = async (req, res) => {
 };
 const updateCertification = async (req, res) => {
   try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ message: "Certification ID is required" });
+    }
+    const updateObj = {};
+    const { name, description, duration, mode, skillsGained } = req.body;
+
+    if (name) updateObj.name = name;
+    if (description) updateObj.description = description;
+    if (duration) updateObj.duration = duration;
+    if (mode) updateObj.mode = mode;
+    if (skillsGained) updateObj.skillsGained = skillsGained;
+
     const certification = await Certification.findByIdAndUpdate(
       req.params.id,
-      req.body
+      updateObj
     );
     if (!certification) {
       return res.status(404).json({ message: "Certification not found" });
