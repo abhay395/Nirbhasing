@@ -15,6 +15,11 @@ const createHeadline = async (req, res) => {
 // Get all headlines
 const getHeadlines = async (req, res) => {
     try {
+        const { type } = req.query;
+        if(type){
+            const headlines = await Headline.find({type});
+            return res.status(200).json(headlines);
+        }
         const headlines = await Headline.aggregate(
             [
         {
