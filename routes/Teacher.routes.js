@@ -12,7 +12,7 @@ router.get("/", teacherController.getTeachers);
 router.post("/", upload.single("image"), fileSizeError,teacherController.addTeacher);
 
 // PUT: Update teacher details
-router.put("/:id", teacherController.updateTeacher);
+router.put("/:id",upload.single("image"),teacherController.updateTeacher);
 
 // DELETE: Remove teacher
 router.delete("/:id", teacherController.removeTeacher);

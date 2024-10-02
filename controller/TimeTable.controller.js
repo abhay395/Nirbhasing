@@ -3,13 +3,10 @@ const { uploadOncloudinary } = require("../utils/cloudinary");
 // Get all timetable entries
 const getAllTimeTables = async (req, res) => {
   try {
-    const queryObject = {}
-
-    // const { session } = req.query.session;
-    if (req.query.session) {
-      queryObject.courseSession = req.query.session
+    if (!req.query.session) {
+    return res.status(400).json({ message: "Session is required" });
     }
-    const timeTables = await TimeTable.find(queryObject);
+    const timeTables = await TimeTable.find( req.query.session);
     res.status(200).json(timeTables);
   } catch (error) {
     res.status(500).json({ message: "Error fetching timetables", error });
@@ -30,7 +27,7 @@ const getTimeTableById = async (req, res) => {
 };
 
 // Update a timetable entry
-const updateTimeTable = async (req, res) => {
+const updateTimeTableForCreate = async (req, res) => {
   try {
     const { courseName, courseSession, type } = req.body;
     let timeTable = await TimeTable.findOne({ courseName, courseSession });
@@ -61,7 +58,7 @@ const createTimeTable = async (req, res) => {
   const { courseName, courseSession, type } = req.body;
 
   try {
-    const updatedTimeTable = await updateTimeTable(req, res);
+    const updatedTimeTable = await updateTimeTableForCreate(req, res);
     if (updatedTimeTable) {
       res.status(200).json(updatedTimeTable);
     } else {
@@ -89,8 +86,10 @@ const createTimeTable = async (req, res) => {
 // Delete a timetable entry
 const deleteTimeTable = async (req, res) => {
   try {
+    if (!req.params.id) {
+      return res.status(400).json({ message: "ID is required" });
+    }
     const timeTable = await TimeTable.findByIdAndDelete(req.params.id);
-
     if (!timeTable) {
       return res.status(404).json({ message: "Time table not found" });
     }
@@ -101,6 +100,9 @@ const deleteTimeTable = async (req, res) => {
   }
 };
 
+const  updateTimeTable = async (req, res) => {
+  
+}
 module.exports = {
   getAllTimeTables,
   getTimeTableById,
