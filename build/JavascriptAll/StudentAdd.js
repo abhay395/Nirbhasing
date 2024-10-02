@@ -1,226 +1,219 @@
-// Variables for course and year
-let currentCourse = document.getElementById("courseSelect").value;
-let currentYear = document.getElementById("yearSelect").value;
+const StudentSecition = document.querySelector("#studentSection");
+const form = document.querySelector('form')
+const selectYearInput = document.querySelector('#year');
+const selectCourseInput = document.querySelector('#course');
+const selectExamYear = document.querySelector('#examyear');
+const nameInput = document.querySelector('#name');
+const cgpaInput = document.querySelector('#cgpa');
+const rankInput = document.querySelector('#rank');
+const imageInput = document.querySelector('#image');
 
-let editIndex, editTable;
+const examyear = selectExamYear.value
+const course = selectCourseInput.value
 
-// Load course or year data on selection
-// document.getElementById("courseSelect").addEventListener("change", loadCourseData);
-// document.getElementById("yearSelect").addEventListener("change", loadYearData);
+const updateData=async({name,cgpa,rank},id)=>{
+  const formdata =new FormData();
+  formdata.append('name',name)
+  formdata.append('cgpa',cgpa)
+  formdata.append('rank',rank)
+  console.log(id)
+  try {
+     const res = await fetch(`/student/update/${id}`, {
+      method: 'PUT',
+      body: formdata
+    })
+    return res
+  } catch (error) {
+    return error
+  }
+}
+const postData=async({name,cgpa,course,year,rank,image,examYear})=>{
+  try {
+    const formdata = new FormData();
+    formdata.append('name',name)
+    formdata.append('cgpa',cgpa)
+    formdata.append('course',course)
+    formdata.append('year',year)
+    formdata.append('rank',rank)
+    formdata.append('image',image)
+    formdata.append('examYear',examYear)
+    const response = await fetch('/student/create', {
+      method: 'POST',
+      body: formdata
+    });
+    const result = await response.json();
+    return result
+  } catch (error) {
+    return null
+  }
+}
 
-const loadCourseData = () =>
-  loadTableData(getCurrentYear(), getCurrentCourse());
-const loadYearData = () => loadTableData(getCurrentYear(), getCurrentCourse());
 
-const getCurrentYear = () => document.getElementById("yearSelect").value;
-const getCurrentCourse = () => document.getElementById("courseSelect").value;
+form.addEventListener('submit',async(e)=>{
+  e.preventDefault()
+  const name = nameInput.value
+  const cgpa = cgpaInput.value
+  const course = selectCourseInput.value
+  const examYear= selectExamYear.value
+  const year = selectYearInput.value
+  const rank = parseFloat(rankInput.value)
+  const image = imageInput.files[0]
+ try {
+  await postData({name,cgpa,course,year,rank,image,examYear}).then((data)=>{
+    if(data){
+      alert("data added")
+    }
+    renderData()
+  })
+ } catch (error) {
+  console.log(error)
+ }
 
-const datanotFound = (tableId) => {
-  const tableBody = document.getElementById(tableId).querySelector("tbody");
-  tableBody.innerHTML = `<tr><td colspan="5" class='text-danger'>Data not found</td></tr>`;
+})
+
+const getData = async () => {
+  try {
+    const response = await fetch(`/student/getAll?examYear=${examyear}&course=${course}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
-const loadTableData = (examYear, course) => {
-  fetch(
-    `/student/getAll?examYear=${examYear}&course=${course}`
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.length !== 0) {
-        const yearData = data[0];
-        console.log(yearData["1stYearStudents"])
-        populateTable("firstYearTable", yearData["1stYearStudents"]);
-        populateTable("secondYearTable", yearData["2ndYearStudents"]);
-        populateTable("thirdYearTable", yearData["3rdYearStudents"]);
-      } else {
-        ["firstYearTable", "secondYearTable", "thirdYearTable"].forEach(
-          datanotFound
-        );
+const deleteStudent = async(id)=>{
+  try {
+    const response = await fetch(`/student/delete/${id}`,{
+      method:"DELETE"
+    })
+    return response 
+  } catch (error) {
+    return null
+  }
+}
+const renderData = async () => {
+  try {
+    StudentSecition.innerHTML=''
+    const data = (await getData()) || [];
+    const firstYearStudent = data[0]["1stYearStudents"];
+    const secondYearStudent = data[0]["2ndYearStudents"];
+    const theredYearStudent = data[0]["3rdYearStudents"];
+    console.log(firstYearStudent, secondYearStudent, theredYearStudent);
+   const tableFor1stYear = creatTable(firstYearStudent,"first Year")
+   const tableFor2ndYear = creatTable(secondYearStudent,"first Year")
+   const tableFor3rdYear = creatTable(theredYearStudent,"first Year")
+   const tableArray = [tableFor1stYear,tableFor2ndYear,tableFor3rdYear];
+   let year =1;
+   tableArray.forEach((table)=>{
+    const div = document.createElement('div');
+    const h1 = document.createElement('h1');
+    h1.innerHTML = `${year} Year Student`
+    div.appendChild(h1);
+    div.appendChild(table);
+    year++;
+    StudentSecition.appendChild(div);
+   })
+    // data.forEach(element => {
+
+    // });
+  } catch (error) {
+    console.log(error);
+  }
+};
+function creatTable (data, name){
+  const div = document.createElement("div");
+  const table = document.createElement("table");
+  table.innerHTML = `<thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>CGPA</th>
+                    <th>Rank</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>`
+  const tbody = document.createElement('tbody');
+  data.forEach(element => {
+    const tr = document.createElement('tr');
+    let EditMode = false;
+    tr.innerHTML = `
+    <td>${element.name}</td>
+    <td>${`<img src="${element.image}" >`}</td>
+    <td>${element.cgpa}</td>
+    <td>${ element.rank}</td>
+    <td><button class="EditBtn">Edit</button><button class="DeleteBtn">Delete</button></td>`;
+    const EditBtn = tr.querySelector('.EditBtn');
+    const DeleteBtn = tr.querySelector('.DeleteBtn');
+    DeleteBtn.addEventListener("click",async(e)=>{
+      try {
+       const res= await deleteStudent(element._id)
+       if(res.status==200){
+        const parentElement = e.target.parentElement.parentElement.parentElement;
+        parentElement.removeChild(e.target.parentElement.parentElement)
+        
+       }
+      } catch (error) {
+        console.log(error)
       }
     })
-    .catch((error) => console.error("Error loading student data:", error));
-};
-
-const populateTable = (tableId, students = []) => {
-  const tableBody = document.getElementById(tableId).querySelector("tbody");
-  tableBody.innerHTML = students.length
-    ? students
-        .map((student, index) => createTableRow(student, index, tableId))
-        .join("")
-    : `<tr><td colspan="5" class='text-danger'>Data not found</td></tr>`;
-};
-
-const createTableRow = (student, index, tableId) => `
-  <tr>
-    <td>${student.name}</td>
-    <td><img src="${student.image}" alt="student image"></td>
-    <td>${student.cgpa}</td>
-    <td>${student.rank}</td>
-    <td>
-      <button class="edit-btn" data-index="${student._id}" data-table="${tableId}">Edit</button>
-      <button class="delete-btn" data-index="${student._id}" data-table="${tableId}">Delete</button>
-    </td>
-  </tr>
-`;
-
-const addStudent = async () => {
-  const name = document.getElementById("newStudentName").value;
-  const cgpa = parseFloat(document.getElementById("newStudentcgpa").value);
-  const rank = parseInt(document.getElementById("newStudentRank").value);
-  const year = document.getElementById("newStudentYear").value;
-  const imageInput = document.getElementById("newStudentImage");
-  const image = imageInput.files[0]; // Get the file object
-  if (!name || isNaN(cgpa) || isNaN(rank) || !image) {
-    return alert("Please fill out all fields");
-  }
-
-  //    function
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("cgpa", cgpa);
-  formData.append("course", currentCourse);
-  formData.append("year", year);
-  formData.append("rank", rank);
-  formData.append("examYear", parseInt(currentYear));
-  formData.append("image", image);
-  try {
-    // Send a POST request using async/await
-    const response = await fetch("/student/create", {
-      method: "POST",
-      body: formData,
+    EditBtn.addEventListener("click",async (e) => {
+      EditMode = !EditMode;
+      if (EditMode) {
+        const obj = {};
+        tr.querySelectorAll('td').forEach((td, index) => {
+          let id;
+          if(index==0) id="name"
+          if(index==2) id="cgpa"
+          if(index==3) id="rank"
+          if (index!=1 && index < 4) { // First 4 columns are editable
+            const value = td.innerText;
+            td.innerHTML = `<input id="${id}" value="${value}" />`;
+          }
+          
+        });
+        EditBtn.innerText = 'Save';
+      } else {
+        const  name = tr.querySelector('#name').value
+        const cgpa = parseFloat(tr.querySelector('#cgpa').value)
+        const rank = parseInt(tr.querySelector('#rank').value)
+        const id=element._id
+      const res =  await updateData({name,cgpa,rank},id)
+      if(res.status==200)  tr.querySelectorAll('td').forEach((td, index) => {
+        if (index!=1 && index < 4) {
+          const input = td.querySelector('input');
+          const id = input.id;
+          const value = input.value;
+          const formData = new FormData();
+          if (input) {
+            td.innerHTML = input.value;
+          }
+        }
+      });
+      sortStudent(tbody)
+        EditBtn.innerText = 'Edit';
+      }
     });
+    
+    tbody.appendChild(tr);
+  });
 
-    // Clear form inputs upon successful response
-    if (response.ok) {
-        // name = "";
-        // cgpa = "";
-        // year = "";
-        // rank = "";
-        // image = "";
-      alert('Student added successfully') 
-    } else {
-      throw new Error("Failed to upload student data");
-    }
-  } catch (error) {
-    // Log the error and show an error alert
-    console.error(error);
-    alert("Something went wrong! Please try again.");
-    return;
-  }
-  const newStudent = { name, cgpa, rank, image };
-      const yearTableMap = {
-        1: "firstYearTable",
-        2: "secondYearTable",
-        3: "thirdYearTable",
-      };
-      const tableId = yearTableMap[year];
-      const tableBody = document.getElementById(tableId).querySelector("tbody");
-      tableBody.insertAdjacentHTML(
-        "beforeend",
-        createTableRow(newStudent, tableBody.rows.length, tableId)
-      );
-      document.getElementById("addStudentForm").reset();
+  table.appendChild(tbody);
+  return table;
 };
 
-// Event delegation for edit and delete buttons
-document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("edit-btn")) {
-    openEditModal(e.target.dataset.index, e.target.dataset.table);
-  } else if (e.target.classList.contains("delete-btn")) {
-    deleteStudent(e.target.dataset.index, e.target.dataset.table);
-    // console.log(e.target.dataset.index, e.target.dataset.table);
-  }
-});
-
-const openEditModal = (index, tableId) => {
-  editIndex = index;
-  editTable = tableId;
-
-  const student = document.getElementById(tableId).querySelectorAll("tbody tr")[
-    index
-  ];
-  document.getElementById("studentName").value = student.cells[0].innerText;
-  document.getElementById("studentCgpa").value = student.cells[2].innerText;
-  document.getElementById("studentRank").value = student.cells[3].innerText;
-
-  document.getElementById("editModal").style.display = "flex";
-};
-
-const saveEdit = () => {
-  const student = document
-    .getElementById(editTable)
-    .querySelectorAll("tbody tr")[editIndex];
-  student.cells[0].innerText = document.getElementById("studentName").value;
-  student.cells[2].innerText = document.getElementById("studentCgpa").value;
-  student.cells[3].innerText = document.getElementById("studentRank").value;
-
-  closeModal();
-};
-
-const closeModal = () => {
-  document.getElementById("editModal").style.display = "none";
-};
-
-const deleteStudent = async(id, tableId) => {
-  try {
-    // Send a POST request using async/await
-    const response = await fetch(`/student/delete/${id}`, {
-      method: "DELETE",
-    });
-
-    // Clear form inputs upon successful response
-    if (response.ok) {
-        // name = "";
-        // cgpa = "";
-        // year = "";
-        // rank = "";
-        // image = "";
-      alert('Student Deleted successfully') 
-    } else {
-      throw new Error("Failed to delete student data");
-    }
-  } catch (error) {
-    // Log the error and show an error alert
-    console.error(error);
-    alert("Something went wrong! Please try again.");
-    return;
-  }
-
-  document.getElementById(tableId).querySelector("tbody").deleteRow(id);
-
-};
-
-// Initial data load on page load
-window.onload = () => loadTableData(currentYear, currentCourse);
-
-// document.addEventListener("DOMContentLoaded", async () => {
-//   const navbarUl = document.querySelector("#navbarNav ul");
-//   const login = document.querySelector("#login");
-//   const adminPanelItem = createNavItem("Admin Panel", "/Pages/AdminPanel.html");
-//   const loginItem = createNavItem("Login", "/Pages/Login.html");
-
-//   try {
-//     const response = await fetch("/check/myUser");
-//     const data = await response.json();
-//     navbarUl.appendChild(adminPanelItem);
-
-//     console.log(data);
-//   } catch (error) {
-//     navbarUl.appendChild(loginItem);
-//     console.error("Authentication check failed:", error);
-//   }
-// });
-
-// // Helper function to create nav item
-// function createNavItem(text, href) {
-//   const li = document.createElement("li");
-//   li.className = "nav-item";
-
-//   const a = document.createElement("a");
-//   a.className = "nav-link";
-//   a.href = href;
-//   a.textContent = text;
-
-//   li.appendChild(a);
-//   return li;
-// }
+function sortStudent(tbody){
+  const studentArr = Array.from(tbody.children);
+  studentArr.sort((a,b)=>{
+    const cgpaA=parseFloat(a.querySelector('td:nth-child(3)').innerHTML)
+    const cgpaB=parseFloat(b.querySelector('td:nth-child(3)').innerHTML)
+    console.log(cgpaA,cgpaB)
+    return cgpaB-cgpaA
+  })
+  // console.log(studentArr[0].innerHTML);
+  studentArr.forEach((student)=>{
+    tbody.appendChild(student)
+  })
+  // console.log(studentArr);
+}
+renderData();
