@@ -9,7 +9,7 @@ const uploadOncloudinary=async(localFilePath,fileType)=>{
       const result = await cloudinary.uploader.upload(localFilePath, {
           resource_type: fileType,
         });
-        fs.unlinkSync(localFilePath)
+        // fs.unlinkSync(localFilePath)
         return result;
   } catch (error) {
     fs.unlinkSync(localFilePath);
