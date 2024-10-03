@@ -53,10 +53,9 @@ exports.addTeacher = async (req, res) => {
     if (phone) {
       teacherData.phone = phone;
     }
-
-    const teacher = new Teacher.create(teacherData);
-
-    res.status(201).json({ message: "Teacher added successfully" },teacher);
+    const teacher = new Teacher(teacherData);
+    await teacher.save();
+    res.status(201).json({ message: "Teacher added successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

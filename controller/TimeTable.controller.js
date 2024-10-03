@@ -1,12 +1,18 @@
+const { url } = require("../config/cloudinaryConfig.js");
 const TimeTable = require("../models/TimeTable.js"); // Assuming the schema is in models folder
 const { uploadOncloudinary } = require("../utils/cloudinary");
 // Get all timetable entries
 const getAllTimeTables = async (req, res) => {
   try {
-    if (!req.query.session) {
-    return res.status(400).json({ message: "Session is required" });
+    const queryObj = {};
+    if (req.query.session) {
+      queryObj.courseSession = req.query.session;
     }
-    const timeTables = await TimeTable.find( req.query.session);
+    // if (!req.query.session) {
+    // return res.status(400).json({ message: "Session is required" });
+    // }
+    const timeTables = await TimeTable.find(queryObj);
+    // // console.log(timeTables);
     res.status(200).json(timeTables);
   } catch (error) {
     res.status(500).json({ message: "Error fetching timetables", error });
@@ -26,57 +32,27 @@ const getTimeTableById = async (req, res) => {
   }
 };
 
-// Update a timetable entry
-const updateTimeTableForCreate = async (req, res) => {
-  try {
-    const { courseName, courseSession, type } = req.body;
-    let timeTable = await TimeTable.findOne({ courseName, courseSession });
-    if (timeTable && timeTable[type] === "Comming Soon") {
-      const result = await uploadOncloudinary(req.file.path, "raw");
-      if (!result || !result.secure_url) {
-        return res.status(500).json({ error: "Error uploading pdf" });
-      }
-      const id = timeTable._id._id;
-      console.log(id);
-      const updatedTimeTable = await TimeTable.findByIdAndUpdate(
-        id,
-        { $set: { [type]: result.secure_url } },
-        { new: true }
-      );
-      // // console.log(tl);
-      return updatedTimeTable;
-    } else {
-      return null;
-    }
-  } catch (error) {
-    return null;
-  }
-};
+
 
 // Create a new timetable
 const createTimeTable = async (req, res) => {
   const { courseName, courseSession, type } = req.body;
 
   try {
-    const updatedTimeTable = await updateTimeTableForCreate(req, res);
-    if (updatedTimeTable) {
-      res.status(200).json(updatedTimeTable);
-    } else {
-      console.log(req.file.path);
-      const result = await uploadOncloudinary(req.file.path, "raw");
-      if (!result || !result.secure_url) {
-        return res.status(500).json({ error: "Error uploading pdf" });
-      }
-
-      const newTimeTable = new TimeTable({
-        courseName,
-        courseSession,
-        [type]: result.secure_url,
-      });
-
-      const savedTimeTable = await newTimeTable.save();
-      res.status(200).json(savedTimeTable);
+    if (!req.file || !req.file.path) {
+      return res.status(400).json({ error: "No file uploaded" });
     }
+    const result = await uploadOncloudinary(req.file.path, "raw");
+    if (!result || !result.secure_url) {
+      return res.status(500).json({ error: "Error uploading pdf" });
+    }
+    const newTimeTable = new TimeTable({
+      courseName,
+      courseSession,
+      [type]: result.secure_url,
+    });
+    const savedTimeTable = await newTimeTable.save();
+    res.status(200).json(savedTimeTable);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error creating timetable", error });
@@ -100,9 +76,39 @@ const deleteTimeTable = async (req, res) => {
   }
 };
 
-const  updateTimeTable = async (req, res) => {
-  
-}
+const updateTimeTable = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // req.params
+    console.log(req.params)
+    if (!id) {
+      return res.status(400).json({ message: "ID is required" });
+    }
+    const { type } = req.body;
+    if (!req.file?.path) {
+      return res.status(400).json({ message: "File is required" });
+    }
+    const result = await uploadOncloudinary(req.file.path, "raw");
+    if (!result || !result.secure_url) {
+      return res.status(500).json({ error: "Error uploading pdf" });
+    }
+    const updatedTimeTable = await TimeTable.findByIdAndUpdate(
+      id,
+      { $set: { [type]: result.secure_url } },
+      { new: true }
+    );
+
+    if (!updatedTimeTable) {
+      return res.status(404).json({ message: "Time table not found" });
+    }
+   
+      return res.status(200).json({ message: "Time table updated successfully" ,url:result.secure_url});
+    // res.status(200).json(updatedTimeTable);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating timetable", error });
+    console.log(error);
+  }
+};
 module.exports = {
   getAllTimeTables,
   getTimeTableById,
