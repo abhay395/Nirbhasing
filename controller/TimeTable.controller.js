@@ -42,7 +42,7 @@ const createTimeTable = async (req, res) => {
     if (!req.file || !req.file.path) {
       return res.status(400).json({ error: "No file uploaded" });
     }
-    const result = await uploadOncloudinary(req.file.path, "raw");
+    const result = await uploadOncloudinary(req,res);
     if (!result || !result.secure_url) {
       return res.status(500).json({ error: "Error uploading pdf" });
     }
