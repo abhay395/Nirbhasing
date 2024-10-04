@@ -13,6 +13,7 @@ const updateData = async ({ name, qualification, email, post }, id) => {
   formdata.append("qualification", qualification);
   formdata.append("email", email);
   formdata.append("post", post);
+  console.log(post)
   try {
     const res = await fetch(`/teacher/${id}`, {
       method: "PUT",
@@ -178,8 +179,8 @@ function creatTable(data, name) {
           }
           if (index == 4) {
             const value = td.innerText;
-            td.innerHTML = `<select>
-            <option value="Faculty" id="post" ${
+            td.innerHTML = `<select id="post">
+            <option value="Faculty"  ${
               value === "Faculty" ? "selected" : ""
             }>Faculty</option>
             <option value="Staff" ${
