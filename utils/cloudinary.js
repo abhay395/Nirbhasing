@@ -16,4 +16,4 @@ const uploadOncloudinary=async(localFilePath,fileType)=>{
     return null;
   }
 }
-exports.uploadOncloudinary=uploadOncloudinary;
+exports.uploadOncloudinary=uploadOncloudinary
