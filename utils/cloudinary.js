@@ -1,19 +1,26 @@
-const cloudinary= require('../config/cloudinaryConfig')
-const fs = require('fs')
+const cloudinary = require("../config/cloudinaryConfig");
+const fs = require("fs");
 
-const uploadOncloudinary=async(localFilePath,fileType)=>{
-    if(!localFilePath){
-        return null;
-    }
+const uploadOncloudinary = async (req,res) => {
+  // if (!localFilePath) {
+  //   return null;
+  // }
   try {
-      const result = await cloudinary.uploader.upload(localFilePath, {
-          resource_type: fileType,
-        });
-        fs.unlinkSync(localFilePath)
-        return result;
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_stream((error, result) => {
+        if (error) {
+          reject("Cloudinary upload failed");
+        } else {
+          console.log(result.secure_url);
+          resolve(result);
+        }
+      }).end(req.file.buffer);
+    });
+    return result;
   } catch (error) {
-    fs.unlinkSync(localFilePath);
+    console.error(error);
     return null;
+    // res.status(500).json({ error: "Internal Server Error" });
   }
-}
-exports.uploadOncloudinary=uploadOncloudinary
+};
+exports.uploadOncloudinary = uploadOncloudinary;

@@ -5,14 +5,15 @@ const fs = require("fs");
 exports.create = async (req, res) => {
   try {
     const { name, cgpa, course, year, rank, examYear } = req.body;
-    if (!req.file || !req.file.path) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-    const result = await uploadOncloudinary(req.file.path, "image");
+    // if (!req.file || !req.file.path) {
+    //   return res.status(400).json({ error: "No file uploaded" });
+    // }
+    const result = await uploadOncloudinary(req,res);
     if (!result || !result.secure_url) {
-      console.log(imagePath);
+      // console.log(imagePath);
       return res.status(500).json({ error: "Error uploading image" });
     }
+    console.log(result.secure_url)
     const newStudent = new Student({
       name,
       cgpa,
