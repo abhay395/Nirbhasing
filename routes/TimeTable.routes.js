@@ -6,7 +6,7 @@ const {
   updateTimeTable,
   deleteTimeTable,
 } = require('../controller/TimeTable.controller.js'); // Import controller functions
-const {upload} = require('../middlewares/multer.muddewaresforPdf.js');
+const {upload} = require('../middlewares/multer.middlewaresforPdf.js');
 
 const router = express.Router();
 

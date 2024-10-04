@@ -6,10 +6,8 @@ const MongoStore = require('connect-mongo');
 
 //All Routers
 const {
-  departmentHeadRouter,
   authRouter,
   userRouter,
-  sliderRouter,
   studentRouter,
   teacherRouter,
   timeTableRouter,
@@ -146,8 +144,6 @@ passport.deserializeUser(function (user, done) {
 app.get("*", (req, res) => res.sendFile(path.resolve("build")));
 app.use("/auth", authRouter.router);
 app.use("/user", isAuth(), userRouter.router);
-app.use("/department-head", departmentHeadRouter.router);
-app.use("/slider", sliderRouter.router);
 app.use("/student", studentRouter.router);
 app.use("/teacher", teacherRouter.router);
 app.use("/timeTable", timeTableRouter.router);

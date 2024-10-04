@@ -39,9 +39,9 @@ const createTimeTable = async (req, res) => {
   const { courseName, courseSession, type } = req.body;
 
   try {
-    if (!req.file || !req.file.path) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
+    // if (!req.file || !req.file.path) {
+    //   return res.status(400).json({ error: "No file uploaded" });
+    // }
     const result = await uploadOncloudinary(req,res);
     if (!result || !result.secure_url) {
       return res.status(500).json({ error: "Error uploading pdf" });
@@ -85,10 +85,10 @@ const updateTimeTable = async (req, res) => {
       return res.status(400).json({ message: "ID is required" });
     }
     const { type } = req.body;
-    if (!req.file?.path) {
+    if (!req.file) {
       return res.status(400).json({ message: "File is required" });
     }
-    const result = await uploadOncloudinary(req.file.path, "raw");
+    const result = await uploadOncloudinary(req,res);
     if (!result || !result.secure_url) {
       return res.status(500).json({ error: "Error uploading pdf" });
     }

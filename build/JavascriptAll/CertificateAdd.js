@@ -71,7 +71,7 @@ const addCertificate = () => {
 
 // delete certificate data
 const deleteCertificate = (id) => {
-  fetch(`/certification/delete/${id}`, {
+  fetch(`/certification/${id}`, {
     method: "DELETE",
   })
     .then((response) => {

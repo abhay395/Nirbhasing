@@ -19,7 +19,7 @@ const hideLoader = () => container.removeChild(loader);
 const getData = async () => {
   try {
     showLoader(); // Show loader while fetching data
-    const response = await fetch("/student/getAll?course=BCA");
+    const response = await fetch("/student/getAll?course=BCA&examYear=2023");
     const data = await response.json();
     if (!data || data.length === 0) {
       StudentSection.innerHTML = `

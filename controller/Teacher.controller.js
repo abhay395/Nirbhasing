@@ -78,8 +78,8 @@ exports.updateTeacher = async (req, res) => {
   if (description) updateObj.description = description;
 
   try {
-    if (req.file?.path) {
-      const result = await uploadOncloudinary(req.file.path, "image");
+    if (req.file) {
+      const result = await uploadOncloudinary(req,res);
       if (result.secure_url) {
         updateObj.image = result.secure_url;
       }
