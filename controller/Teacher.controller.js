@@ -28,7 +28,7 @@ exports.addTeacher = async (req, res) => {
     if (!name || !qualification || !email || !post || !description) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    const result = await uploadOncloudinary(req.file.path, "image");
+    const result = await uploadOncloudinary(req,res);
     if (!result?.secure_url) {
       return res.status(500).json({ error: "Error uploading image" });
     }
