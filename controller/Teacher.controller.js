@@ -35,7 +35,7 @@ exports.addTeacher = async (req, res) => {
     //   return res.status(400).json({ error: "No file uploaded" });
     // }
     // console.log("Hello",req.file);
-    const result = await uploadOncloudinary(req,res);
+    const result = await uploadOncloudinary(req, res);
 
     if (!result?.secure_url) {
       return res.status(500).json({ error: "Error uploading image" });
@@ -87,14 +87,13 @@ exports.updateTeacher = async (req, res) => {
         return res.status(500).json({ error: "Error uploading image" });
       }
     }
-    const updatedTeacher = await Teacher.findByIdAndUpdate(
-      id,
-      updateObj,
-      { new: true }
-    );
-    res
-      .status(200)
-      .json({ message: "Teacher updated successfully", teacher:updatedTeacher });
+    const updatedTeacher = await Teacher.findByIdAndUpdate(id, updateObj, {
+      new: true,
+    });
+    res.status(200).json({
+      message: "Teacher updated successfully",
+      teacher: updatedTeacher,
+    });
   } catch (error) {
     res.status(500).json({ message: "Error updating teacher" });
   }
@@ -103,11 +102,11 @@ exports.updateTeacher = async (req, res) => {
 // DELETE: Remove teacher
 exports.removeTeacher = async (req, res) => {
   try {
-    if(!req.params.id){
+    if (!req.params.id) {
       return res.status(400).json({ message: "ID is required" });
     }
     const result = await Teacher.findByIdAndDelete(req.params.id);
-    if(!result){
+    if (!result) {
       return res.status(404).json({ message: "Teacher not found" });
     }
     res.json({ message: "Teacher removed successfully" });
