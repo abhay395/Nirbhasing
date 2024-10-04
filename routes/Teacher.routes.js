@@ -9,7 +9,7 @@ const { fileSizeError } = require("../middlewares/fileSizeError");
 router.get("/", teacherController.getTeachers);
 
 // POST: Add new teacher
-router.post("/", upload.single("image"), fileSizeError,teacherController.addTeacher);
+router.post("/", upload.single("image"),teacherController.addTeacher);
 
 // PUT: Update teacher details
 router.put("/:id",upload.single("image"),teacherController.updateTeacher);
