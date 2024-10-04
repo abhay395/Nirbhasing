@@ -46,9 +46,18 @@ app.use(cookieParser());
 // TODO: session setup
 app.use(
   session({
-    secret: "shhh",
+    secret: process.env.SESSION_SECRET || 'secret', // Use a secure secret in production
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URL, // MongoDB connection string
+      ttl: 14 * 24 * 60 * 60, // Sessions expire after 14 days
+    }),
+    cookie: {
+      maxAge: 14 * 24 * 60 * 60 * 1000, // Cookie expiration time
+      secure: process.env.NODE_ENV === 'production', // Set this to true if using HTTPS
+      httpOnly: true,
+    },
   })
 );
 

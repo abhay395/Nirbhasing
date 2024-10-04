@@ -18,7 +18,7 @@ const updateData=async({name,cgpa,rank},id)=>{
   formdata.append('rank',rank)
   console.log(id)
   try {
-     const res = await fetch(`https://server-for-college-git-main-abhay395s-projects.vercel.app/student/update/${id}`, {
+     const res = await fetch(`/student/update/${id}`, {
       method: 'PUT',
       body: formdata
     })
@@ -37,7 +37,7 @@ const postData=async({name,cgpa,course,year,rank,image,examYear})=>{
     formdata.append('rank',rank)
     formdata.append('image',image)
     formdata.append('examYear',examYear)
-    const response = await fetch('https://server-for-college-git-main-abhay395s-projects.vercel.app/student/create', {
+    const response = await fetch('/student/create', {
       method: 'POST',
       body: formdata
     });
@@ -73,7 +73,7 @@ form.addEventListener('submit',async(e)=>{
 
 const getData = async () => {
   try {
-    const response = await fetch(`https://server-for-college-git-main-abhay395s-projects.vercel.app/student/getAll?examYear=${examyear}&course=${course}`);
+    const response = await fetch(`/student/getAll?examYear=${examyear}&course=${course}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -84,7 +84,7 @@ const getData = async () => {
 
 const deleteStudent = async(id)=>{
   try {
-    const response = await fetch(`https://server-for-college-git-main-abhay395s-projects.vercel.app/student/delete/${id}`,{
+    const response = await fetch(`/student/delete/${id}`,{
       method:"DELETE"
     })
     return response 
