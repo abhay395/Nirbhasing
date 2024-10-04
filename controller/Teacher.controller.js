@@ -58,7 +58,7 @@ exports.addTeacher = async (req, res) => {
     res.status(201).json({ message: "Teacher added successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Error adding teacher" });
   }
 };
 
