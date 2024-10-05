@@ -4,29 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - certificate Data</title>
+    <title>College Admin Panel</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1,
-        h2 {
-            text-align: center;
-        }
 
         table {
             width: 100%;
@@ -51,119 +33,98 @@
             object-fit: cover;
             border-radius: 50%;
         }
-
-        button {
-            padding: 5px 10px;
-            margin-right: 5px;
-            cursor: pointer;
-        }
-
-        .edit-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .delete-btn {
-            background-color: #f44336;
-            color: white;
-        }
-
-        select,
-        input {
-            padding: 5px;
-            margin: 5px 0;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 300px;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
     </style>
+    <link rel="stylesheet" href="./admin-panel.css" />
 </head>
 
 <body>
-    <div class="container">
-        <h1>certificate Management Panel</h1>
 
-        <!-- Form to Add New certificate -->
-        <h2>Add New certificate</h2>
-        <form id="addCertificateForm">
+    <!-- Sidebar -->
+    <div class="d-flex" id="wrapper">
+        <div id="sidebar-wrapper">
+            <div class="sidebar-heading">Admin Panel</div>
+            <div class="list-group list-group-flush">
+                <a href="../Pages/AdminPanel.html" class="list-group-item list-group-item-action">Home</a>
+                <a href="../Pages/StudentAddPage.html" class="list-group-item list-group-item-action">Manage
+                    Students</a>
+                <a href="../Pages/TeacherAddPage.html" class="list-group-item list-group-item-action">Manage
+                    Professors</a>
+                <a href="../Pages/CertificateAdd.html" class="list-group-item list-group-item-action">Manage
+                    Certificate</a>
+                <a href="../Pages/NewsEventAdd.html" class="list-group-item list-group-item-action">Manage News &
+                    Events</a>
+                <a href="../Pages/TimeTableAdd.html" class="list-group-item list-group-item-action">Manage Time
+                    Tables</a>
+                <a href="../Pages/ResearchAdd.html" class="list-group-item list-group-item-action">Manage Research</a>
+                <a href="../Pages/placement-add-page.html" class="list-group-item list-group-item-action">Manage
+                    Placement Student</a>
 
-            <label for="newCertificateName">Certificate Name:</label>
-            <input type="text" id="newCertificateName" required><br>
-            <label for="newCertiDescription">Description:</label>
-            <textarea id="newCertiDescription" rows="4" required></textarea><br>
-            <label for="newCertificateDuration">Duration:</label>
-            <input type="text" id="newCertificateDuration" required><br>
-            <label for="newCertificateSkills">Skills:</label>
-            <input type="text" id="newCertificateSkills" required><br>
-            <label for="newCertificateMode">Mode:</label>
-            <select id="newCertificateMode" required>
-              <option value="offline">Offline</option>
-                <option value="online">Online</option>
-
-            </select>
-            <button type="button" onclick="addCertificate()">Add Certificate</button>
-        </form>
-
-        <!-- Certificate Data Tables -->
-        <div id="CertificateTables">
-            <h2>Certificates</h2>
-            <table id="CertificateTable">
-                <thead>
-                    <tr>
-                        <th>Sr</th>
-                        <th>Certificate</th>
-                        <th>Duration</th>
-                        <th>Mode</th>
-                        <th>Skill Gained</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+                <a href="../Pages/AdminPanel.html" class="list-group-item list-group-item-action">Settings</a>
+            </div>
         </div>
-    </div>
 
-    <!-- Edit Modal -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Edit Certificate</h2>
-            <label for="editCertificateName">Name:</label>
-            <input type="text" id="editCertificateName"><br>
-            <label for="editCertificateQualification">Qualification:</label>
-            <input type="text" id="editCertificateQualification"><br>
-            <label for="editCertificateEmail">Email:</label>
-            <input type="email" id="editCertificateEmail"><br>
-            <button onclick="saveEdit()">Save</button>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm p-3">
+                <div class="container-fluid">
+                    <button class="btn btn-outline-primary me-3" id="menu-toggle">Toggle Menu</button>
+                    <h1 class="navbar-brand mb-0 h1 fs-3">Certificate Management Panel</h1>
+                </div>
+            </nav>
+
+            <!-- Form to Add New certificate -->
+            <h2>Add New certificate</h2>
+            <form id="addCertificateForm" class="p-4 bg-light shadow-sm rounded">
+
+                <!-- Certificate Name -->
+                <div class="mb-3">
+                    <label for="newCertificateName" class="form-label">Certificate Name:</label>
+                    <input type="text" class="form-control border-primary" id="newCertificateName" required>
+                </div>
+            
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="newCertiDescription" class="form-label">Description:</label>
+                    <textarea class="form-control border-primary" id="newCertiDescription" rows="4" required></textarea>
+                </div>
+            
+                <!-- Duration -->
+                <div class="mb-3">
+                    <label for="newCertificateDuration" class="form-label">Duration:</label>
+                    <input type="text" class="form-control border-primary" id="newCertificateDuration" required>
+                </div>
+            
+                <!-- Skills -->
+                <div class="mb-3">
+                    <label for="newCertificateSkills" class="form-label">Skills:</label>
+                    <input type="text" class="form-control border-primary" id="newCertificateSkills" required>
+                </div>
+            
+                <!-- Mode -->
+                <div class="mb-3">
+                    <label for="newCertificateMode" class="form-label">Mode:</label>
+                    <select class="form-select border-primary" id="newCertificateMode" required>
+                        <option value="offline">Offline</option>
+                        <option value="online">Online</option>
+                    </select>
+                </div>
+            
+                <!-- Submit Button -->
+                <button type="button" class="btn btn-primary" id="certificate-btn">Add Certificate</button>
+            </form>
+            
+
+
+            <!-- certificate add table -->
+            <div id="certificate-section">
+
+            </div>
         </div>
-    </div>
 
- <script src="../JavascriptAll/CertificateAdd.js"></script>
+
+
+        <script src="../JavascriptAll/CertificateAdd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../JavascriptAll/admin.js"></script>
 </body>
 
 </html>

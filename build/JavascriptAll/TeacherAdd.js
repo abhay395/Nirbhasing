@@ -1,93 +1,17 @@
-const techerSection = document.querySelector("#teacherSecition");
-const form = document.querySelector("form");
-const nameInput = document.querySelector("#name");
-const qualificationInput = document.querySelector("#qualification");
-const emailInput = document.querySelector("#email");
-const postInput = document.querySelector("#post");
-const imageInput = document.querySelector("#image");
-const descriptionInput = document.querySelector("#description");
-
-const updateData = async ({ name, qualification, email, post }, id) => {
-  const formdata = new FormData();
-  formdata.append("name", name);
-  formdata.append("qualification", qualification);
-  formdata.append("email", email);
-  formdata.append("post", post);
-  console.log(post)
-  try {
-    const res = await fetch(`/teacher/${id}`, {
-      method: "PUT",
-      body: formdata,
-    });
-    return res;
-  } catch (error) {
-    return error;
-  }
-};
-const postData = async ({
-  name,
-  qualification,
-  email,
-  post,
-  description,
-  image,
-}) => {
-  try {
-    const formdata = new FormData();
-    formdata.append("name", name);
-    formdata.append("qualification", qualification);
-    formdata.append("email", email);
-    formdata.append("post", post);
-    formdata.append("description", description);
-    formdata.append("image", image);
-    const response = await fetch("/teacher", {
-      method: "POST",
-      body: formdata,
-    });
-    return response;
-  } catch (error) {
-    return null;
-  }
-};
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const name = nameInput.value;
-  const qualification = qualificationInput.value;
-  const email = emailInput.value;
-  const post = postInput.value;
-  const description = descriptionInput.value;
-  const image = imageInput.files[0];
-  try {
-   const respo = await postData({
-      name,
-      qualification,
-      email,
-      post,
-      description,
-      image,
-    })
-    console.log(respo);
-    if(respo.status == 201){
-      alert("data added successfully");
-      nameInput.value='';
-      qualificationInput.value='';
-      emailInput.value='';
-      postInput.value='';
-      descriptionInput.value='';
-      imageInput.value='';
-      // renderData()
-      renderData();
-    }
-  } catch (error) {
-    alert(error);
-  }
-});
-
+const tableSection = document.getElementById("teacher-section");
+const teacherNameInput = document.getElementById("newTeacherName");
+const teacherQualificationInput = document.getElementById(
+  "newTeacherQualification"
+);
+const teacherEmailInput = document.getElementById("newTeacherEmail");
+const teacherDescriptionInput = document.getElementById("description");
+const teacherPost = document.getElementById("newTeacherPost");
+const imageInput = document.getElementById("newTeacherImage");
+const submitDataButton = document.getElementById("submitDataButton");
 const getData = async () => {
   try {
-    const response = await fetch(`/teacher`);
-    const data = await response.json();
+    const response = await fetch("/teacher");
+    const data = response.json();
     return data;
   } catch (error) {
     console.log(error);
@@ -95,133 +19,220 @@ const getData = async () => {
   }
 };
 
-const teacherDelete = async (id) => {
+// update data
+const updateData = async (
+  name,
+  qualification,
+  email,
+  post,
+  description,
+  id
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("qualification", qualification);
+    formData.append("email", email);
+    formData.append("post", post);
+    formData.append("description", description);
+
+    const response = await fetch(`/teacher/${id}`, {
+      method: "PUT",
+      body: formData,
+    });
+    if (response.ok) {
+      alert("data updated");
+    }
+    return response;
+  } catch (error) {
+    console.log(error);
+    alert("data not updated !");
+    return null;
+  }
+};
+//  delete data
+const deleteData = async (id) => {
   try {
     const response = await fetch(`/teacher/${id}`, {
       method: "DELETE",
     });
     return response;
   } catch (error) {
-    return null;
+    console.log(error);
+    alert("Data not deleted");
   }
 };
-const renderData = async () => {
+
+// post data
+const postData = async ({
+  name,
+  qualification,
+  email,
+  post,
+  image,
+  description,
+}) => {
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("qualification", qualification);
+  formData.append("email", email);
+  formData.append("post", post);
+  formData.append("image", image);
+  formData.append("description", description);
+
   try {
-    techerSection.innerHTML = "";
-    const data = (await getData()) || [];
-    const tableForTeacherAndStaff = creatTable(data, "Teacher And Staff");
-    const div = document.createElement("div");
-    const h1 = document.createElement("h1");
-    h1.innerHTML = `Teacher And Staff`;
-    div.appendChild(h1);
-    div.appendChild(tableForTeacherAndStaff);
-    techerSection.appendChild(div);
-
-    // data.forEach(element => {
-
-    // });
+    const response = await fetch("/teacher", {
+      method: "POST",
+      body: formdata,
+    });
+    const result = response.json();
+    return result;
   } catch (error) {
     console.log(error);
+    alert("Data not updated");
   }
 };
-function creatTable(data, name) {
+
+// render data
+
+const renderData = async () => {
+  tableSection.innerHTML = "";
   const table = document.createElement("table");
-  table.innerHTML = `<thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>Qualification</th>
-                    <th>Email</th>
-                    <th>Post</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>`;
-  const tbody = document.createElement("tbody");
-  data.forEach((element) => {
-    const tr = document.createElement("tr");
-    let EditMode = false;
-    const { name, image, qualification, email, post } = element;
-    tr.innerHTML = `
-    <td>${name}</td>
-    <td>${`<img src="${image}" >`}</td>
-    <td>${qualification}</td>
-    <td>${email}</td>
-    <td>${post}</td>
-    <td><button class="EditBtn">Edit</button><button class="DeleteBtn">Delete</button></td>`;
-    const EditBtn = tr.querySelector(".EditBtn");
-    const DeleteBtn = tr.querySelector(".DeleteBtn");
-    DeleteBtn.addEventListener("click", async (e) => {
-      try {
-        const res = await teacherDelete(element._id);
-        if (res.status == 200) {
-          const parentElement =
-            e.target.parentElement.parentElement.parentElement;
-          parentElement.removeChild(e.target.parentElement.parentElement);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-    EditBtn.addEventListener("click", async (e) => {
-      EditMode = !EditMode;
-      if (EditMode) {
-        const obj = {};
+table.className = 'table table-hover table-bordered table-striped'; // Added more Bootstrap classes
+
+const data = (await getData()) || [];
+table.innerHTML = `
+  <thead class="table-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Description</th>
+      <th scope="col">Post</th>
+      <th scope="col">Email</th>
+      <th scope="col">Qualification</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+`;
+
+const tableBody = document.createElement("tbody");
+data.forEach((element, index) => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <th scope="row">${index + 1}</th>
+    <td>${element.name}</td>
+    <td>
+      <img src="${element.image}" class="img-thumbnail" style="width: 80px; height: auto;">
+    </td>
+    <td>${element.description}</td>
+    <td>${element.post}</td>
+    <td>${element.email}</td>
+    <td>${element.qualification}</td>
+    <td>
+      <button class="btn btn-sm btn-warning edit-btn me-2">Edit</button>
+      <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+    </td>
+    `;
+    const editButton = tr.querySelector(".edit-btn");
+    const deleteButton = tr.querySelector(".delete-btn");
+    let editMode = false;
+    editButton.addEventListener("click", async () => {
+      editMode = !editMode;
+      if (editMode) {
         tr.querySelectorAll("td").forEach((td, index) => {
+          console.log(td)
+          const value = td.innerText;
           let id;
           if (index == 0) id = "name";
-          if (index == 2) id = "qualification";
-          if (index == 3) id = "email";
-          if (index == 4) id = "post";
-          if (index != 1 && index < 4) {
-            // First 4 columns are editable
-            const value = td.innerText;
-            td.innerHTML = `<input id="${id}" value="${value}" />`;
-          }
-          if (index == 4) {
-            const value = td.innerText;
-            td.innerHTML = `<select id="post">
-            <option value="Faculty"  ${
-              value === "Faculty" ? "selected" : ""
-            }>Faculty</option>
-            <option value="Staff" ${
-              value === "Staff" ? "selected" : ""
-            }>Staff</option>
-            <option value="HOD" ${
-              value === "HOD" ? "selected" : ""
-            }>HOD</option>
-            </select>`;
+          if (index == 2) id = "description";
+          if (index == 3) id = "post";
+          if (index == 4) id = "email";
+          if (index == 5) id = "qualification";
+
+          if (index != 1 && index <= 5) {
+            td.innerHTML = `<input id=${id} value='${value}'>`;
           }
         });
-        EditBtn.innerText = "Save";
+        editButton.innerText = "Save";
       } else {
         const name = tr.querySelector("#name").value;
-        const qualification = tr.querySelector("#qualification").value;
-        const email = tr.querySelector("#email").value;
+        const description = tr.querySelector("#description").value;
         const post = tr.querySelector("#post").value;
+        const email = tr.querySelector("#email").value;
+        const qualification = tr.querySelector("#qualification").value;
         const id = element._id;
-        const res = await updateData({ name, qualification, email, post }, id);
-        if (res.status == 200)
+
+        const response = await updateData(
+          name,
+          qualification,
+          email,
+          post,
+          description,
+          id
+        );
+        console.log(response);
+        if (response.ok) {
           tr.querySelectorAll("td").forEach((td, index) => {
-            if (index != 1 && index < 5) {
+            if (index != 1 && index <= 5) {
               const input = td.querySelector("input");
-              const select = td.querySelector("select");
-              if (select) {
-                td.innerHTML = select.value;
-              }
               if (input) {
                 td.innerHTML = input.value;
               }
             }
           });
-        EditBtn.innerText = "Edit";
+
+          editButton.innerText = "Edit";
+        }
       }
     });
-
-    tbody.appendChild(tr);
+    deleteButton.addEventListener("click", async () => {
+      try {
+        const response = await deleteData(element._id);
+        if (response.status == 200) {
+          alert("data deleted");
+          renderData();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    // append data
+    tableBody.appendChild(tr);
   });
+  table.appendChild(tableBody);
+  tableSection.appendChild(table);
+};
 
-  table.appendChild(tbody);
-  return table;
-}
+// Add new teacher
+submitDataButton.addEventListener("click", async () => {
+  const name = teacherNameInput.value;
+  const qualification = teacherQualificationInput.value;
+  const email = teacherEmailInput.value;
+  const post = teacherPost.value;
+  const image = imageInput.files[0];
+  const description = teacherDescriptionInput.value;
 
-renderData();
+  if (!name || !qualification || !email || !post || !image || !description) {
+    alert("Please fill out all fields.");
+    return;
+  }
+
+  try {
+    const data = { name, qualification, image, email, post, description };
+    await postData(data).then((data) => {
+      if (data) {
+        alert("data added");
+      }
+      renderData();
+    });
+  } catch (err) {
+    console.log(err);
+    alert("data not uploaded");
+  }
+});
+
+// Delete Teacher
+
+// Load teacher data on page load
+window.onload = renderData;

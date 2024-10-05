@@ -142,6 +142,7 @@ const renderData = async () => {
 function creatTable(data, name) {
   const div = document.createElement("div");
   const table = document.createElement("table");
+  table.className='table table-hover'
   table.innerHTML = `<thead>
                 <tr>
                     <th>Name</th>
