@@ -107,9 +107,9 @@ const renderData = async () => {
    let year =1;
    tableArray.forEach((table)=>{
     const div = document.createElement('div');
-    const h1 = document.createElement('h1');
-    h1.innerHTML = `${year} Year Student`
-    div.appendChild(h1);
+    const h4 = document.createElement('h4');
+    h4.innerHTML = `${year} Year Student`
+    div.appendChild(h4);
     div.appendChild(table);
     year++;
     StudentSecition.appendChild(div);
@@ -124,6 +124,7 @@ const renderData = async () => {
 function creatTable (data, name){
   const div = document.createElement("div");
   const table = document.createElement("table");
+  table.className='table table-hover'
   table.innerHTML = `<thead>
                 <tr>
                     <th>Name</th>
@@ -142,7 +143,7 @@ function creatTable (data, name){
     <td>${`<img src="${element.image}" >`}</td>
     <td>${element.cgpa}</td>
     <td>${ element.rank}</td>
-    <td><button class="EditBtn">Edit</button><button class="DeleteBtn">Delete</button></td>`;
+    <td><button class="EditBtn btn btn-primary m-1">Edit</button><button class="DeleteBtn btn btn-danger">Delete</button></td>`;
     const EditBtn = tr.querySelector('.EditBtn');
     const DeleteBtn = tr.querySelector('.DeleteBtn');
     DeleteBtn.addEventListener("click",async(e)=>{
