@@ -15,6 +15,7 @@ const {
   ,headlineRouter
   ,researchRouter
   ,certificationRouter
+  ,placementStudentRouter
 } = require("./service/AllRoutes");
 const path = require("path");
 const {connectDb} = require("./db/connectdb");
@@ -151,7 +152,9 @@ app.use("/headline", headlineRouter.router);
 app.use("/upload", uploadRouter.router);
 app.use("/research", researchRouter.router);
 app.use("/certification", certificationRouter.router);
+app.use("/placementStudent", placementStudentRouter.router);
 app.use("/check", isAuth(), checkRouter.router);
+
 
 
 const PORT = process.env.PORT;

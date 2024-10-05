@@ -8,6 +8,7 @@ const checkRouter = require("../routes/Check.routes");
 const headlineRouter = require("../routes/Headline.routes");
 const researchRouter = require("../routes/Reserach.routes");
 const certificationRouter = require("../routes/Certification.routes");
+const placementStudentRouter = require("../routes/PlacementStudent.routes");
 
 module.exports = {
   authRouter,
@@ -19,5 +20,6 @@ module.exports = {
   checkRouter,
   headlineRouter,
   researchRouter,
-  certificationRouter
+  certificationRouter,
+  placementStudentRouter,
 };

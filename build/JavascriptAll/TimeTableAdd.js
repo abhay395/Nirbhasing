@@ -88,7 +88,6 @@ form.addEventListener("submit", async (e) => {
     if (data.status == 200) {
       alert("Time Table Added ");
       selectForCourse.value = "";
-      selectForSession.value = "";
       selectTimeTableFor.value = "";
       pdfInput.value = "";
       tableContainer.innerHTML = "";
