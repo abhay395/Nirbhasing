@@ -35,10 +35,10 @@ exports.addTeacher = async (req, res) => {
     //   return res.status(400).json({ error: "No file uploaded" });
     // }
     // console.log("Hello",req.file);
-    const result = await uploadOncloudinary(req, res);
+    const result = await uploadOncloudinary(req, "image/");
 
     if (!result?.secure_url) {
-      return res.status(500).json({ error: "Error uploading image" });
+      return res.status(500).json({ error: result.error });
     }
 
     const teacherData = {
@@ -79,12 +79,12 @@ exports.updateTeacher = async (req, res) => {
 
   try {
     if (req.file) {
-      const result = await uploadOncloudinary(req,res);
+      const result = await uploadOncloudinary(req, "image/");
       if (result.secure_url) {
         updateObj.image = result.secure_url;
       }
       if (!result?.secure_url) {
-        return res.status(500).json({ error: "Error uploading image" });
+        return res.status(500).json({ error: result.error });
       }
     }
     const updatedTeacher = await Teacher.findByIdAndUpdate(id, updateObj, {

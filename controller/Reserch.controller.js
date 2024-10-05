@@ -5,7 +5,7 @@ const { uploadOncloudinary } = require("../utils/cloudinary");
 
 const addResearch = async (req, res) => {
   const { type, title, description } = req.body;
-  if (type === "Ongoing Research" && !req.file?.path) {
+  if (type === "Ongoing Research" && !req.file) {
     return res
       .status(400)
       .json({ message: "Image is required for Ongoing Research" });
@@ -23,13 +23,13 @@ const addResearch = async (req, res) => {
 
   try {
     let result;
-    if (req.file?.path) {
-      result = await uploadOncloudinary(req.file.path, "image");
+    if (req.file) {
+      result = await uploadOncloudinary(req ,"image/");
+      if (!result?.secure_url) {
+        return res.status(500).json({ error: result.error });
+      }
       if (result.secure_url) {
         researchData.image = result.secure_url;
-      }
-      if (!result?.secure_url) {
-        return res.status(500).json({ error: "Error uploading image" });
       }
     }
     const newResearch = new Research(researchData);
@@ -160,8 +160,8 @@ const updateResearch = async (req, res) => {
     if (type) updateObj.type = type;
     if (title) updateObj.title = title;
     if (description) updateObj.description = description;
-    if (type === "Ongoing Research" && req.file.path) {
-      const result = await uploadOncloudinary(req.file.path, "image");
+    if (type === "Ongoing Research" && req.file) {
+      const result = await uploadOncloudinary(req,res);
       if (result.secure_url) {
         updateObj.image = result.secure_url;
       }

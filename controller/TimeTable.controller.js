@@ -42,9 +42,9 @@ const createTimeTable = async (req, res) => {
     // if (!req.file || !req.file.path) {
     //   return res.status(400).json({ error: "No file uploaded" });
     // }
-    const result = await uploadOncloudinary(req,res);
-    if (!result || !result.secure_url) {
-      return res.status(500).json({ error: "Error uploading pdf" });
+    const result = await uploadOncloudinary(req,"application/pdf");
+    if (!result?.secure_url) {
+      return res.status(500).json({ error: result.error });
     }
     const newTimeTable = new TimeTable({
       courseName,
@@ -88,9 +88,9 @@ const updateTimeTable = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "File is required" });
     }
-    const result = await uploadOncloudinary(req,res);
-    if (!result || !result.secure_url) {
-      return res.status(500).json({ error: "Error uploading pdf" });
+    const result = await uploadOncloudinary(req,"application/pdf");
+    if ( !result?.secure_url) {
+      return res.status(500).json({ error: result.error });
     }
     const updatedTimeTable = await TimeTable.findByIdAndUpdate(
       id,
