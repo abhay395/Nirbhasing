@@ -102,7 +102,7 @@ const updateTimeTable = async (req, res) => {
       return res.status(404).json({ message: "Time table not found" });
     }
    
-      return res.status(200).json({ message: "Time table updated successfully" ,url:result.secure_url});
+      return res.status(200).json({ message: "Time table updated successfully" ,[type]:result.secure_url});
     // res.status(200).json(updatedTimeTable);
   } catch (error) {
     res.status(500).json({ message: "Error updating timetable", error });

@@ -55,7 +55,7 @@ exports.addTeacher = async (req, res) => {
     }
     const teacher = new Teacher(teacherData);
     await teacher.save();
-    res.status(201).json({ message: "Teacher added successfully" });
+    res.status(201).json({ message: "Teacher added successfully",teacher });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server" });

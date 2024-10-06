@@ -1,4 +1,5 @@
-const StudentSecition = document.querySelector("#studentSection");
+// Cache DOM elements to avoid repeated querying
+const studentSection = document.querySelector("#studentSection");
 const form = document.querySelector("form");
 const selectYearInput = document.querySelector("#year");
 const selectCourseInput = document.querySelector("#course");
@@ -8,78 +9,215 @@ const cgpaInput = document.querySelector("#cgpa");
 const rankInput = document.querySelector("#rank");
 const imageInput = document.querySelector("#image");
 
-let examyear = selectExamYear.value;
+// Cache tbody elements for year tables
+const tbodyFor1st = document.querySelector("#year1 tbody");
+const tbodyFor2nd = document.querySelector("#year2 tbody");
+const tbodyFor3rd = document.querySelector("#year3 tbody");
+
+let examYear = selectExamYear.value;
 let course = selectCourseInput.value;
 
-const updateData = async ({ name, cgpa, rank }, id) => {
-  const formdata = new FormData();
-  formdata.append("name", name);
-  formdata.append("cgpa", cgpa);
-  formdata.append("rank", rank);
-  console.log(id);
+// Function to handle API requests
+const fetchRequest = async (url, method, formData) => {
   try {
-    const res = await fetch(`/student/update/${id}`, {
-      method: "PUT",
-      body: formdata,
-    });
-    return res;
+    const response = await fetch(url, { method, body: formData });
+    return response;
   } catch (error) {
-    return error;
-  }
-};
-const postData = async ({
-  name,
-  cgpa,
-  course,
-  year,
-  rank,
-  image,
-  examYear,
-}) => {
-  try {
-    const formdata = new FormData();
-    formdata.append("name", name);
-    formdata.append("cgpa", cgpa);
-    formdata.append("course", course);
-    formdata.append("year", year);
-    formdata.append("rank", rank);
-    formdata.append("image", image);
-    formdata.append("examYear", examYear);
-    const response = await fetch("/student/create", {
-      method: "POST",
-      body: formdata,
-    });
-    const result = await response.json();
-    return result;
-  } catch (error) {
+    console.error(error);
     return null;
   }
 };
 
+// Function to create FormData from an object
+const createFormData = (data) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+  return formData;
+};
+
+// Update student data
+const updateData = (data, id) => {
+  const formData = createFormData(data);
+  return fetchRequest(`/student/update/${id}`, "PUT", formData);
+};
+
+// Create a new student entry
+const postData = (data) => {
+  const formData = createFormData(data);
+  return fetchRequest("/student/create", "POST", formData);
+};
+
+// Delete student by ID
+const deleteStudent = (id) => fetchRequest(`/student/delete/${id}`, "DELETE");
+
+// Event listener for form submission
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = nameInput.value;
-  const cgpa = cgpaInput.value;
-  const course = selectCourseInput.value;
-  const examYear = selectExamYear.value;
-  const year = selectYearInput.value;
-  const rank = parseFloat(rankInput.value);
-  const image = imageInput.files[0];
+
+  const studentData = {
+    name: nameInput.value,
+    cgpa: cgpaInput.value,
+    course: selectCourseInput.value,
+    year: selectYearInput.value,
+    rank: parseFloat(rankInput.value),
+    image: imageInput.files[0],
+    examYear: selectExamYear.value
+  };
+
   try {
-    await postData({ name, cgpa, course, year, rank, image, examYear }).then(
-      (data) => {
-        if (data) {
-          alert("data added");
-        }
-        renderData();
-      }
-    );
+    let data = await postData(studentData);
+    data = data.json();
+    if (data) {
+      data = data.student;
+      const tr = createStudentRow(data);
+      appendStudentRow(tr, data.year);
+    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
+
+// Create a student row dynamically
+const createStudentRow = (data) => {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${data.name}</td>
+    <td><img src="${data.image}" alt="student image" style="width:50px;"></td>
+    <td>${data.cgpa}</td>
+    <td>${data.rank}</td>
+    <td>
+      <button class="EditBtn">Edit</button>
+      <button class="DeleteBtn">Delete</button>
+    </td>`;
+
+  const EditBtn = tr.querySelector(".EditBtn");
+  const DeleteBtn = tr.querySelector(".DeleteBtn");
+
+  // Edit button functionality
+  EditBtn.addEventListener("click", () => handleEdit(tr, data));
+
+  // Delete button functionality
+  DeleteBtn.addEventListener("click", async () => {
+    const res = await deleteStudent(data._id);
+    if (res && res.status === 200) tr.remove();  // Remove the row from the DOM
+  });
+
+  return tr;
+};
+
+// Append student row to the correct year's table
+const appendStudentRow = (tr, year) => {
+  let tbody;
+  switch (year) {
+    case "1":
+      tbody = tbodyFor1st;
+      break;
+    case "2":
+      tbody = tbodyFor2nd;
+      break;
+    case "3":
+      tbody = tbodyFor3rd;
+      break;
+  }
+  if (tbody) {
+    tbody.appendChild(tr);
+    sortStudent(tbody);  // Sort rows after appending
+  }
+};
+
+// Handle editing of a student row
+const handleEdit = async (tr, data) => {
+  const EditBtn = tr.querySelector(".EditBtn");
+  let EditMode = EditBtn.innerText === "Edit";
+
+  if (EditMode) {
+    tr.querySelectorAll("td").forEach((td, index) => {
+      if (index !== 1 && index < 4) {
+        const value = td.innerText;
+        const id = index === 0 ? "name" : index === 2 ? "cgpa" : "rank";
+        td.innerHTML = `<input id="${id}" value="${value}" />`;
+      }
+    });
+    EditBtn.innerText = "Save";
+  } else {
+    const updatedData = {
+      name: tr.querySelector("#name").value,
+      cgpa: parseFloat(tr.querySelector("#cgpa").value),
+      rank: parseInt(tr.querySelector("#rank").value),
+    };
+
+    const res = await updateData(updatedData, data._id);
+    if (res && res.status === 200) {
+      tr.querySelectorAll("td").forEach((td, index) => {
+        if (index !== 1 && index < 4) {
+          const input = td.querySelector("input");
+          if (input) td.innerText = input.value;  // Update the cell with the new value
+        }
+      });
+      sortStudent(tr.parentElement);
+      EditBtn.innerText = "Edit";
+    }
+  }
+};
+
+// Sort students by CGPA
+const sortStudent = (tbody) => {
+  const studentArr = Array.from(tbody.children);
+  studentArr.sort((a, b) => {
+    const cgpaA = parseFloat(a.querySelector("td:nth-child(3)").innerText);
+    const cgpaB = parseFloat(b.querySelector("td:nth-child(3)").innerText);
+    return cgpaB - cgpaA;
+  });
+  studentArr.forEach((student) => tbody.appendChild(student));  // Append sorted rows
+};
+
+// Fetch and render data
+const getData = () => fetch(`/student/getAll?examYear=${examYear}&course=${course}`)
+  .then((response) => response.json())
+  .catch((error) => {
+    console.error(error);
+    return [];
+  });
+
+// Render the data based on selected year and course
+const renderData = async () => {
+  studentSection.innerHTML = "";
+  const data = await getData();
+  const years = ["1stYearStudents", "2ndYearStudents", "3rdYearStudents", "4thYearStudents"];
+  years.forEach((yearKey, index) => {
+    const students = data[0][yearKey];
+    if (students) {
+      const table = createTable(students, `${index + 1} Year Students`);
+      studentSection.appendChild(table);
+    }
+  });
+};
+
+// Create table for student data
+const createTable = (students, yearName) => {
+  const table = document.createElement("table");
+  table.className = "table table-hover";
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Image</th>
+        <th>CGPA</th>
+        <th>Rank</th>
+        <th>Actions</th>
+      </tr>
+    </thead>`;
+  const tbody = document.createElement("tbody");
+  students.forEach((student) => tbody.appendChild(createStudentRow(student)));
+  table.appendChild(tbody);
+  return table;
+};
+
+// Event listeners for input changes
 selectExamYear.addEventListener("change", (e) => {
-  examyear = e.target.value;
+  examYear = e.target.value;
   renderData();
 });
 
@@ -87,154 +225,6 @@ selectCourseInput.addEventListener("change", (e) => {
   course = e.target.value;
   renderData();
 });
-const getData = async () => {
-  try {
-    const response = await fetch(
-      `/student/getAll?examYear=${examyear}&course=${course}`
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
 
-const deleteStudent = async (id) => {
-  try {
-    const response = await fetch(`/student/delete/${id}`, {
-      method: "DELETE",
-    });
-    return response;
-  } catch (error) {
-    return null;
-  }
-};
-const renderData = async () => {
-  try {
-    StudentSecition.innerHTML = "";
-    const data = (await getData()) || [];
-    const firstYearStudent = data[0]["1stYearStudents"];
-    const secondYearStudent = data[0]["2ndYearStudents"];
-    const theredYearStudent = data[0]["3rdYearStudents"];
-    console.log(firstYearStudent, secondYearStudent, theredYearStudent);
-    const tableFor1stYear = creatTable(firstYearStudent, "first Year");
-    const tableFor2ndYear = creatTable(secondYearStudent, "first Year");
-    const tableFor3rdYear = creatTable(theredYearStudent, "first Year");
-    const tableArray = [tableFor1stYear, tableFor2ndYear, tableFor3rdYear];
-    let year = 1;
-    tableArray.forEach((table) => {
-      const div = document.createElement("div");
-      const h1 = document.createElement("h1");
-      h1.innerHTML = `${year} Year Student`;
-      div.appendChild(h1);
-      div.appendChild(table);
-      year++;
-      StudentSecition.appendChild(div);
-    });
-    // data.forEach(element => {
-
-    // });
-  } catch (error) {
-    console.log(error);
-  }
-};
-function creatTable(data, name) {
-  const div = document.createElement("div");
-  const table = document.createElement("table");
-  table.className='table table-hover'
-  table.innerHTML = `<thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Image</th>
-                    <th>CGPA</th>
-                    <th>Rank</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>`;
-  const tbody = document.createElement("tbody");
-  data.forEach((element) => {
-    const tr = document.createElement("tr");
-    let EditMode = false;
-    tr.innerHTML = `
-    <td>${element.name}</td>
-    <td>${`<img src="${element.image}" >`}</td>
-    <td>${element.cgpa}</td>
-    <td>${element.rank}</td>
-    <td><button class="EditBtn">Edit</button><button class="DeleteBtn">Delete</button></td>`;
-    const EditBtn = tr.querySelector(".EditBtn");
-    const DeleteBtn = tr.querySelector(".DeleteBtn");
-    DeleteBtn.addEventListener("click", async (e) => {
-      try {
-        const res = await deleteStudent(element._id);
-        if (res.status == 200) {
-          const parentElement =
-            e.target.parentElement.parentElement.parentElement;
-          parentElement.removeChild(e.target.parentElement.parentElement);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-    EditBtn.addEventListener("click", async (e) => {
-      EditMode = !EditMode;
-      if (EditMode) {
-        const obj = {};
-        tr.querySelectorAll("td").forEach((td, index) => {
-          let id;
-          if (index == 0) id = "name";
-          if (index == 2) id = "cgpa";
-          if (index == 3) id = "rank";
-          if (index != 1 && index < 4) {
-            // First 4 columns are editable
-            const value = td.innerText;
-            td.innerHTML = `<input id="${id}" value="${value}" />`;
-          }
-        });
-        EditBtn.innerText = "Save";
-      } else {
-        const name = tr.querySelector("#name").value;
-        const cgpa = parseFloat(tr.querySelector("#cgpa").value);
-        const rank = parseInt(tr.querySelector("#rank").value);
-        const id = element._id;
-        const res = await updateData({ name, cgpa, rank }, id);
-        if (res.status == 200)
-          tr.querySelectorAll("td").forEach((td, index) => {
-            if (index != 1 && index < 4) {
-              const input = td.querySelector("input");
-              const id = input.id;
-              const value = input.value;
-              const formData = new FormData();
-              if (input) {
-                td.innerHTML = input.value;
-              }
-            }
-          });
-        sortStudent(tbody);
-        EditBtn.innerText = "Edit";
-      }
-    });
-
-    tbody.appendChild(tr);
-  });
-
-  table.appendChild(tbody);
-  return table;
-}
-
-function sortStudent(tbody) {
-  const studentArr = Array.from(tbody.children);
-  studentArr.sort((a, b) => {
-    const cgpaA = parseFloat(a.querySelector("td:nth-child(3)").innerHTML);
-    const cgpaB = parseFloat(b.querySelector("td:nth-child(3)").innerHTML);
-    console.log(cgpaA, cgpaB);
-    return cgpaB - cgpaA;
-  });
-  // console.log(studentArr[0].innerHTML);
-  studentArr.forEach((student) => {
-    tbody.appendChild(student);
-  });
-  // console.log(studentArr);
-}
-
+// Initial rendering of data
 renderData();

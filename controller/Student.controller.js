@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
       examYear,
     });
     await newStudent.save();
-    res.status(201).json({ message: "Student created successfully" });
+    res.status(201).json({ message: "Student created successfully", student:newStudent });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error creating student", error });
