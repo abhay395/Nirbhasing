@@ -4,7 +4,7 @@ const descriptionInput = document.getElementById("newDescription");
 const typeInput = document.getElementById("type");
 const imageInputDiv = document.querySelector("#imageInput");
 const imageInput = imageInputDiv.querySelector("input");
-const submitInputButton = document.getElementById("research-submit-btn");
+const form = document.querySelector("form");
 
 // check show image icon
 typeInput.addEventListener("change", (e) => {
@@ -64,67 +64,74 @@ const renderData = async () => {
     const publications = data[0].Publications;
     const researchGroup = data[0].ResearchGroups;
     // console.log(onGoingRearch);
-    createTable(onGoingRearch, data[0]);
-    createTable(publications);
-    createTable(researchGroup);
+    // console.log(data[0]);
+    createTable(onGoingRearch, "Ongoing-Research");
+    createTable(publications,"Publications");
+    createTable(researchGroup,"Research Groups");
   } catch (error) {
     console.log(error);
   }
 };
 
+const creatRow = (data,index)=>{
+  const tr = document.createElement("tr");
+  tableType = data.type;
+  tr.innerHTML = `
+  <td>${index }</td>
+  <td>${data.title}</td>
+  ${
+    data.image
+      ? `<td><img src="${data.image}" class="img-thumbnail" style="max-width: 100px;" alt="Image"></td>`
+      : ""
+  }
+  <td>${data.description}</td>
+  <td>${data.type}</td>
+  <td>
+    <button class="btn btn-danger btn-sm delete-btn">Delete</button>
+  </td>
+`;
+  // delete button
+  const deleteButton = tr.querySelector(".delete-btn");
+  deleteButton.addEventListener("click", async () => {
+    try {
+      const response = await deleteData(data._id);
+      if (response.status == 200) {
+        tr.remove();
+        // alert("Data deleted successfully !");
+        // renderData();
+      }
+    } catch (error) {
+      console.log(error);
+      alert("data not deleted please try again");
+    }
+  });
+
+  return tr;
+}
 // table create
-const createTable = (data, ongoing) => {
+const createTable = (data,type) => {
   const table = document.createElement("table");
+  table.id=`${type.replace(/ /g, '-')}`
   table.className = "table  table-hover"; // Add Bootstrap classes for styling
   table.innerHTML = `
   <thead class="table-light">
     <tr>
       <th>Sr No.</th>
       <th>Title</th>
-      ${ongoing ? `<th>Image</th>` : ""}
+      ${type=="Ongoing-Research" ? `<th>Image</th>` : ""}
       <th>Description</th>
       <th>Type</th>
       <th>Action</th>
     </tr>
   </thead>
 `;
-
+console.log(data);
   // data iterate
   const tableBody = document.createElement("tbody");
 
-  let tableType;
+  // let tableType;
   data.forEach((element, index) => {
-    const tr = document.createElement("tr");
-    tableType = element.type;
-    tr.innerHTML = `
-    <td>${index + 1}</td>
-    <td>${element.title}</td>
-    ${
-      element.image
-        ? `<td><img src="${element.image}" class="img-thumbnail" style="max-width: 100px;" alt="Image"></td>`
-        : ""
-    }
-    <td>${element.description}</td>
-    <td>${element.type}</td>
-    <td>
-      <button class="btn btn-warning btn-sm edit-btn">Edit</button>
-      <button class="btn btn-danger btn-sm delete-btn">Delete</button>
-    </td>
-  `;
-    // delete button
-    const deleteButton = tr.querySelector(".delete-btn");
-    deleteButton.addEventListener("click", async () => {
-      try {
-        const response = await deleteData(element._id);
-        if (response.status == 200) {
-          alert("Data deleted successfully !");
-          renderData();
-        }
-      } catch (error) {
-        console.log(error);
-        alert("data not deleted please try again");
-      }
-    });
+    const tr = creatRow(element, index + 1);
     // edit button
     // const editButton = tr.querySelector(".edit-btn");
     // let editMode = false;
@@ -171,8 +178,10 @@ const createTable = (data, ongoing) => {
   });
   table.appendChild(tableBody);
   // append table
+  // return table;
   reasearchSection.appendChild(table);
-  table.insertAdjacentHTML("beforebegin", `<h1>${tableType}</h1>`);
+  // console.log(data)
+  table.insertAdjacentHTML("beforebegin", `<h1>${type}</h1>`);
 };
 
 // Post Data
@@ -199,30 +208,41 @@ const postData = async ({ title, description, type, image }) => {
 };
 
 // submit data
-submitInputButton.addEventListener("click", async () => {
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
   const title = titleInput.value;
   const description = descriptionInput.value;
   const type = typeInput.value;
   const image = imageInput.files[0];
-  if (title == "" || description == "" || type == "") {
-    alert("all fields are requried");
-    return;
+  const addobject = {title,description,type};
+  if(type=='Ongoing Research'){
+    addobject.image = image
   }
+
   try {
-    await postData({ title, description, type, image }).then((data) => {
-      if (data) {
-        alert("Data Submitted !");
-        titleInput.value = "";
-        descriptionInput.value = "";
-        typeInput.value = "";
-        imageInput.files[0] = "";
-      }
-      renderData();
-    });
+    disableInputFields(true);
+    let data =  await postData(addobject)
+    data = data.research
+    const tr = creatRow(data, 1);
+    const tbody = document.querySelector(`#${data.type.replace(/ /g, '-')} tbody`);
+    // console.log(data)
+    console.log(tbody)
+    tbody.appendChild(tr);
+    form.reset();
+    disableInputFields(false);
+    // index++;
+      // renderData();s
   } catch (error) {
+    console.log(error)
     alert("Something went wrong !");
   }
 });
 
+function disableInputFields(disable) {
+  titleInput.disabled = disable;
+  descriptionInput.disabled = disable;
+  imageInput.disabled = disable;
+  typeInput.disabled = disable;
+}
 // window load
 window.onload = renderData;
