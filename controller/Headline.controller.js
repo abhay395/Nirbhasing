@@ -55,7 +55,7 @@ const getHeadlines = async (req, res) => {
             $push: {
               $cond: [
                 { $eq: ["$type", "News"] },
-                { description: "$description", type: "$type", _id: "$_id" },
+                { description: "$description", type: "$type", _id: "$_id",timestamp: "$timestamp" },
                 null,
               ],
             },
