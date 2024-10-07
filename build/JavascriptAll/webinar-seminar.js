@@ -1,98 +1,88 @@
-const tbody = document.querySelector("tbody");
+const webinarSeminarSection = document.getElementById("webinar-seminar-container");
 
-let certificate = [
+// all data
+const webinarSeminarData = [
   {
-    courses: [
-      {
-        name: "Data Science Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline'
-      },
-      {
-        name: "Cybersecurity Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline'
-      },
-      {
-        name: "Web Development Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline'
-      },
-      {
-        name: "Artificial Intelligence (AI) Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline'
-      },
-      {
-        name: "Software Engineering Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline',
-      },
-      {
-        name: "Mobile App Development Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline'
-      },
-      {
-        name: "Cloud Computing Certification",
-        description:
-          "Learn to analyze and visualize data using Python and machine learning techniques.",
-        duration: "3 Months",
-        skills: "Data Analysis, Machine Learning, Python",
-        mode: 'Offline'
-      },
-    ],
+    image: "https://res.cloudinary.com/dprpxnibm/image/upload/v1728031843/WhatsApp_Image_2024-10-04_at_14.19.25_1f1206ad_gtbjio.jpg",
+    title: "Webinar 1",
+    description: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+    time: "23-03-2024",
+  },
+  {
+    image: "https://res.cloudinary.com/dprpxnibm/image/upload/v1728031843/WhatsApp_Image_2024-10-04_at_14.19.25_1f1206ad_gtbjio.jpg",
+    title: "Webinar 2",
+    description: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+    time: "23-03-2024",
+  },
+  {
+    image: "https://res.cloudinary.com/dprpxnibm/image/upload/v1728031843/WhatsApp_Image_2024-10-04_at_14.19.25_1f1206ad_gtbjio.jpg",
+    title: "Webinar 3",
+    description: "This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.",
+    time: "23-03-2024",
   },
 ];
 
-// function loader hide
-function loader() {
-  document.getElementById("loader").remove();
+// Function to hide the loader
+function hideLoader() {
+  const loader = document.getElementById("loader");
+  if (loader) loader.remove();
 }
 
-const getData = async()=>{
-  try {
-    const response = await fetch('/certification')
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return null
-  }
+// Function to display a message when no data is available
+function displayNoDataMessage() {
+  webinarSeminarSection.innerHTML = `
+    <div class="col-12 text-center">
+      <p class="text-muted">No webinar or seminar data available at the moment.</p>
+    </div>`;
 }
-const renderData =async()=>{
-  try {
-    const data = await getData()||[];
-    data?.forEach((item,index) => {
-      const {description,duration,mode,name,skillsGained} = item
-      const trElement = document.createElement('tr');
-      trElement.innerHTML=`<th scope="row">${index+1}</th>
-              <td>${name}</td>
-              <td>${description}</td>
-              <td>${duration}</td>
-              <td>${mode}</td>
-              <td>${skillsGained}</td>`
-      tbody.appendChild(trElement);
-    });
-  } catch (error) {
-    console.log(error)
-  }
+
+// Function to display an error message in case of a failed fetch
+function displayErrorMessage() {
+  webinarSeminarSection.innerHTML = `
+    <div class="col-12 text-center">
+      <p class="text-danger">Error loading webinar or seminar data. Please try again later.</p>
+    </div>`;
 }
-renderData();
+
+// getData
+// create function
+// createdata
+const createWebinar = (data) => {
+  const div = document.createElement("div");
+  div.className='col-md-6'
+  // Template literal for card HTML structure
+  div.innerHTML = `
+    <div class="card mb-3 mt-4" style="max-width: 600px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img src="${data.image}" class="img-fluid rounded-start" alt="${data.title}">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">${data.title}</h5>
+            <p class="card-text">${data.description}</p>
+            <p class="card-text"><small class="text-body-secondary">${data.time}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  
+  return div;
+};
+
+const renderData = (webinarList) => {
+  webinarSeminarSection.innerHTML=''
+  if (webinarList.length === 0) {
+    hideLoader();
+    displayNoDataMessage();
+    return;
+  }
+
+  webinarList.forEach((element) => {
+    const webinarCard = createWebinar(element);
+    webinarSeminarSection.appendChild(webinarCard);
+  });
+};
+
+// Example usage:
+renderData(webinarSeminarData);

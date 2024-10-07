@@ -34,7 +34,7 @@ function createFacultyCard(faculty) {
       <div class="card-body d-flex flex-column">
         <h5 class="card-title text-center mb-3">${faculty.name}</h5>
         <p class="card-text"><strong>Qualification:</strong> ${faculty.qualification}</p>
-        <p class="card-text"><strong>email:</strong> ${faculty.email}</p>
+        <p class="card-text"><strong>Email:</strong>${faculty.email}</p>
       </div>
     </div>`;
   

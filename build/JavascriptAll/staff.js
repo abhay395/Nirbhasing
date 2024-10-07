@@ -10,7 +10,7 @@ function hideLoader() {
 function displayNoDataMessage() {
   facultyData.innerHTML = `
     <div class="col-12 text-center">
-      <p class="text-muted">No faculty data available at the moment.</p>
+      <p class="text-muted">No staff data available at the moment.</p>
     </div>`;
 }
 
@@ -18,7 +18,7 @@ function displayNoDataMessage() {
 function displayErrorMessage() {
   facultyData.innerHTML = `
     <div class="col-12 text-center">
-      <p class="text-danger">Error loading faculty data. Please try again later.</p>
+      <p class="text-danger">Error loading staff data. Please try again later.</p>
     </div>`;
 }
 
@@ -34,7 +34,7 @@ function createFacultyCard(faculty) {
       <div class="card-body d-flex flex-column">
         <h5 class="card-title text-center mb-3">${faculty.name}</h5>
         <p class="card-text"><strong>Qualification:</strong> ${faculty.qualification}</p>
-        <p class="card-text"><strong>email:</strong> ${faculty.email}</p>
+        <p class="card-text"><strong>Email:</strong> ${faculty.email}</p>
       </div>
     </div>`;
   
@@ -63,7 +63,7 @@ function fetchFacultyData() {
       renderFacultyData(data);
     })
     .catch((error) => {
-      console.error("Error fetching faculty data:", error);
+      console.error("Error fetching staff data:", error);
       hideLoader();
       displayErrorMessage();
     });

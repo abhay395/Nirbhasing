@@ -49,7 +49,7 @@ const setStudentUI = async () => {
       studentWithYear.innerHTML = `
         <div class="course-info" style="font-size: 1.25rem">
           <span>Master of Science in Computer Science</span>
-          <span>${item.examYear}</span>
+          <span>${item.examYear-1}-${item.examYear}</span>
         </div>
         ${createYearSection('Student1stYear', '1st year')}
         ${createYearSection('Student2ndYear', '2nd year')}
@@ -89,7 +89,7 @@ const populateStudents = (students, section) => {
           <h2 class="student-name">${student.name}</h2>
           <div class="student-stats d-flex justify-content-between">
             <div class="stat">
-              <div class="stat-label">CGPA</div>
+              <div class="stat-label">${student.cgpa >10 ? 'Percentage' : 'CGPA' }</div>
               <div class="stat-value">${student.cgpa}</div>
             </div>
             <div class="stat">

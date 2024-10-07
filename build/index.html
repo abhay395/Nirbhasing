@@ -1,287 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GNSPSC : Computer Science Department</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Audiowide&family=Open+Sans:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <!-- <link
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GNSPSC : Computer Science Department</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Open+Sans:wght@300;400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     /> -->
-    <!-- <link
+  <!-- <link
     href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
     rel="stylesheet"
   /> -->
-    <link rel="stylesheet" href="/indexStyle.css" />
-  </head>
+  <link rel="stylesheet" href="/indexStyle.css" />
+  <style>
+     .tv-bar {
+  position: relative;
+  overflow: hidden;
+}
+  </style>
+</head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-      <a class="navbar-brand" href="/index.html">
-        <img src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727056797/gnspsc_logo_dcadn4.png" alt="GNSPSC Logo" />
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item active">
-            <a class="nav-link text" href="/index.html">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              About
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="/Pages/AboutPage.html"
-                  >About Us</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item" href="/Pages/HeadOfDepartment.html"
-                  >Head Of Department</a
-                >
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              People
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="../Pages/facultypage.html"
-                  >Faculty</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item" href="../Pages/StaffPage.html"
-                  >Staff</a
-                >
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Pages/ReserchPage.html">Research</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Pages/webinar-seminar.html"
-              >Webinar & Seminar</a
-            >
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Students
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="../Pages/BscStudentpage.html"
-                  >BSc</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item" href="../Pages/BCAStudentpage.html"
-                  >BCA</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item" href="../Pages/MscStudentpage.html"
-                  >Msc</a
-                >
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./Pages/PlacementStudentPage.html"
-              >Placements</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./Pages/Time_TablePage.html">Time Table</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./Pages/AdminPanel.html">Admin Panel</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <a class="navbar-brand" href="/index.html">
+      <img src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727056797/gnspsc_logo_dcadn4.png"
+        alt="GNSPSC Logo" />
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item active">
+          <a class="nav-link text" href="/index.html">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            About
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="/Pages/AboutPage.html">About Us</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="/Pages/HeadOfDepartment.html">Head Of Department</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            People
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="../Pages/facultypage.html">Faculty</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="../Pages/StaffPage.html">Staff</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Pages/ReserchPage.html">Research</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Pages/webinar-seminar.html">Webinar/Seminar</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Students
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="../Pages/BscStudentpage.html">BSc</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="../Pages/BCAStudentpage.html">BCA</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="../Pages/MscStudentpage.html">Msc</a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./Pages/PlacementStudentPage.html">Placements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./Pages/Time_TablePage.html">Time Table</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-    <!-- Carousel -->
-    <div
-      id="carouselExampleAutoplaying"
-      class="carousel slide carousel-fade"
-      data-bs-ride="carousel"
-      data-bs-interval="3000"
-    >
-      <div class="carousel-indicators">
-        <button
-          type="button"
-          data-bs-target="#carouselExampleAutoplaying"
-          data-bs-slide-to="0"
-          class="active"
-          aria-current="true"
-          aria-label="Slide 1"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleAutoplaying"
-          data-bs-slide-to="1"
-          aria-label="Slide 2"
-        ></button>
-        <button
-          type="button"
-          data-bs-target="#carouselExampleAutoplaying"
-          data-bs-slide-to="2"
-          aria-label="Slide 3"
-        ></button>
-      </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img
-            src="https://res.cloudinary.com/dprpxnibm/image/upload/v1728031861/WhatsApp_Image_2024-10-04_at_14.19.24_80c062d7_mssidf.jpg"
-            class="d-block w-100"
-            alt="Slide 1"
-            style="height: 70vh"
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <h1>Department of Computer Science</h1>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img
-            src="https://res.cloudinary.com/dprpxnibm/image/upload/v1728031843/WhatsApp_Image_2024-10-04_at_14.19.25_1f1206ad_gtbjio.jpg"
-            class="d-block w-100"
-            alt="Slide 2"
-            style="height: 70vh; object-fit:cover;"
-          />
-          <div class="carousel-caption d-none d-md-block">
-            <h1>Cutting-Edge Research</h1>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <img
-            src="https://res.cloudinary.com/dprpxnibm/image/upload/v1728031874/WhatsApp_Image_2024-10-04_at_14.19.26_f5fd96d9_mtmnhu.jpg"
-            class="d-block w-100"
-            alt="Slide 2"
-            style="height: 70vh"
-          />
-
-          <div class="carousel-caption d-none d-md-block">
-            <h1>Innovative Learning</h1>
-          </div>
+  <!-- Carousel -->
+  <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel"
+    data-bs-interval="3000">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img
+          src="https://res.cloudinary.com/dprpxnibm/image/upload/v1728031861/WhatsApp_Image_2024-10-04_at_14.19.24_80c062d7_mssidf.jpg"
+          class="d-block w-100" alt="Slide 1" style="height: 70vh" />
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Department of Computer Science</h1>
         </div>
       </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carouselExampleAutoplaying"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carouselExampleAutoplaying"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+      <div class="carousel-item">
+        <img
+          src="https://res.cloudinary.com/dprpxnibm/image/upload/v1728031843/WhatsApp_Image_2024-10-04_at_14.19.25_1f1206ad_gtbjio.jpg"
+          class="d-block w-100" alt="Slide 2" style="height: 70vh; object-fit:cover;" />
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Cutting-Edge Research</h1>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img
+          src="https://res.cloudinary.com/dprpxnibm/image/upload/v1728031874/WhatsApp_Image_2024-10-04_at_14.19.26_f5fd96d9_mtmnhu.jpg"
+          class="d-block w-100" alt="Slide 2" style="height: 70vh" />
+
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Innovative Learning</h1>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<!-- news -->
+<div class="tv-bar bg-primary text-white d-flex align-items-center">
+  <div class="bg-danger" style="padding: 11px;">NEWS</div>
+  <div class="news-scroll flex-grow-1">
+    <marquee>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi vel ratione sed doloribus earum ad cupiditate architecto aliquam, beatae aperiam optio in quisquam quam molestias odio, ipsam voluptatibus excepturi unde?</marquee>
+  </div>
+</div>
+
+  <div class="container mt-5">
+    <div class="">
+      <h1 class="audio-font about-cont-heading">About Us</h1>
+      <p>
+        Govt. Nirbhay Singh Patel Science College Indore was established in
+        the year 1989. Earlier the college was known as the Government New
+        Science College Indore. The college was renamed in the fond memory of
+        Late Shri Nirbhay Singh Patel, freedom fighter and former Forest
+        Minister, Government of Madhya Pradesh and now it is recognised as
+        Government Nirbhay Singh Patel Science College Indore.The students are
+        offered 5-degree courses in Biology, Maths, Biotechnology, Computer
+        Science and Computer Application. The college also offer postgraduate
+        degree in Computer Science. In the heart of the Indore city providing
+        education to Urban as well as Rural students. Most of the students are
+        benefited by the scholarship schemes provided by the Department of
+        Higher Education, Government of Madhya Pradesh and Central
+        Government.The college is Wi-Fi enabled and has well equipped
+        Laboratories with separate block for computer science. Gradually the
+        college is moving toward development having high-tech facilities
+        including smart classrooms with interactive touch panel boards and
+        English language lab.There is outdoor and indoor gym for the students.
+        The institute has highly advance basketball ground full filling
+        international parameters along with sports arena for various sports
+        activities and cricket practice pitch.The front view of the main
+        building at and sufficient parking for two wheelers and four wheelers.
+        The institute is enriched with highly qualified and experienced
+        Faculty members, Sports officer, Librarian, and efficient office
+        staff.As per the guideline of the department of Higher Education,
+        Government of Madhya Pradesh the institute has implemented new
+        education policy 2020 and is running successfully to the satisfaction
+        of the students. As per the norms of NEP 2020 the institute is
+        offering various vocational subject, major and minor subject along
+        with internship and field project as well as community work for the
+        holistic development of the students.
+      </p>
     </div>
 
-    <div class="container mt-5">
-      <div class="">
-        <h1 class="audio-font">About Us</h1>
-        <p>
-          Govt. Nirbhay Singh Patel Science College Indore was established in
-          the year 1989. Earlier the college was known as the Government New
-          Science College Indore. The college was renamed in the fond memory of
-          Late Shri Nirbhay Singh Patel, freedom fighter and former Forest
-          Minister, Government of Madhya Pradesh and now it is recognised as
-          Government Nirbhay Singh Patel Science College Indore.The students are
-          offered 5-degree courses in Biology, Maths, Biotechnology, Computer
-          Science and Computer Application. The college also offer postgraduate
-          degree in Computer Science. In the heart of the Indore city providing
-          education to Urban as well as Rural students. Most of the students are
-          benefited by the scholarship schemes provided by the Department of
-          Higher Education, Government of Madhya Pradesh and Central
-          Government.The college is Wi-Fi enabled and has well equipped
-          Laboratories with separate block for computer science. Gradually the
-          college is moving toward development having high-tech facilities
-          including smart classrooms with interactive touch panel boards and
-          English language lab.There is outdoor and indoor gym for the students.
-          The institute has highly advance basketball ground full filling
-          international parameters along with sports arena for various sports
-          activities and cricket practice pitch.The front view of the main
-          building at and sufficient parking for two wheelers and four wheelers.
-          The institute is enriched with highly qualified and experienced
-          Faculty members, Sports officer, Librarian, and efficient office
-          staff.As per the guideline of the department of Higher Education,
-          Government of Madhya Pradesh the institute has implemented new
-          education policy 2020 and is running successfully to the satisfaction
-          of the students. As per the norms of NEP 2020 the institute is
-          offering various vocational subject, major and minor subject along
-          with internship and field project as well as community work for the
-          holistic development of the students.
-        </p>
-      </div>
-
-      <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+    <div class="mt-5">
+      <h1 class="audio-font about-cont-heading">Our Courses</h1>
+      <div id="courses" class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col">
           <div class="card h-100">
-            <img
-              src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727057272/course-pg_exxbrv.jpg"
-              class="card-img-top"
-              alt="BSc Course"
-            />
+            <img src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727057272/course-pg_exxbrv.jpg"
+              class="card-img-top" alt="BSc Course" />
             <div class="card-body">
               <h5 class="card-title">BSc (Computer Science)</h5>
               <p class="card-text">
@@ -295,11 +218,8 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img
-              src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727057272/course-pg_exxbrv.jpg"
-              class="card-img-top"
-              alt="BCA Course"
-            />
+            <img src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727057272/course-pg_exxbrv.jpg"
+              class="card-img-top" alt="BCA Course" />
             <div class="card-body">
               <h5 class="card-title">BCA (Computer Application)</h5>
               <p class="card-text">
@@ -313,11 +233,8 @@
         </div>
         <div class="col">
           <div class="card h-100">
-            <img
-              src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727057272/course-pg_exxbrv.jpg"
-              class="card-img-top"
-              alt="MSc Course"
-            />
+            <img src="https://res.cloudinary.com/dhcszkydc/image/upload/v1727057272/course-pg_exxbrv.jpg"
+              class="card-img-top" alt="MSc Course" />
             <div class="card-body">
               <h5 class="card-title">MSc (Computer Science)</h5>
               <p class="card-text">
@@ -330,113 +247,67 @@
         </div>
       </div>
     </div>
-    <div class="container mt-5">
-      <div id="news-event" class="row">
-        <!-- News Box 1 -->
-        <!-- <div class="col-md-4">
-        <h5 class="bg-primary text-white text-center p-2">NEWS</h5>
-        <div class="news-box">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-            lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod
-            malesuada.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-            lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod
-            malesuada.
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-            lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod
-            malesuada.
-          </p>
+  </div>
+  <div class="container mt-5">
+    <div id="news-event" class="row">
+      <!-- <div class="col-md-4" id="news"></div>
+      <div class="col-md-4" id="events"></div>
+      <div class="col-md-4" id="certificates"></div> -->
+    </div>
+  </div>
+  <!-- footer -->
+  <footer class="footer mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5>email Us</h5>
+          <ul class="list-unstyled">
+            <li>
+              <i class="fas fa-map-marker-alt"></i>&nbsp; A. B. Road
+              Bhawarkuwan Indore, MP, India
+            </li>
+            <li><i class="fas fa-phone"></i> &nbsp;+91-731-2970017</li>
+            <li><i class="fas fa-envelope"></i>&nbsp; gnspsc@gmail.com</li>
+          </ul>
         </div>
-      </div> -->
-        <!-- News Box 2 -->
-        <!-- <div class="col-md-4">
-        <h5 class="bg-primary text-white text-center p-2">EVENTS</h5>
-        <div class="news-box">
-          <p>
-            Aliquam erat volutpat. In hac habitasse platea dictumst.
-            Suspendisse potenti. Phasellus euismod, nisi vel consectetur
-            interdum, nisl ligula sollicitudin quam, eget ullamcorper risus
-            metus et purus.
-          </p>
-          <p>
-            Aliquam erat volutpat. In hac habitasse platea dictumst.
-            Suspendisse potenti. Phasellus euismod, nisi vel consectetur
-            interdum, nisl ligula sollicitudin quam, eget ullamcorper risus
-            metus et purus.
-          </p>
-          <p>
-            Aliquam erat volutpat. In hac habitasse platea dictumst.
-            Suspendisse potenti. Phasellus euismod, nisi vel consectetur
-            interdum, nisl ligula sollicitudin quam, eget ullamcorper risus
-            metus et purus.
-          </p>
+        <div class="col-md-4">
+          <h5>Quick Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="/Pages/AboutPage.html" class="nav-link">About</a>
+            </li>
+            <li>
+              <a href="/Pages/ReserchPage.html" class="nav-link">Research</a>
+            </li>
+            <li>
+              <a href="/Pages/facultypage.html" class="nav-link">Faculty</a>
+            </li>
+            <li><a href="/index.html" class="nav-link">Home</a></li>
+            <li><a href="./Pages/AdminPanel.html" class="nav-link">Admin Panel</a></li>
+          </ul>
         </div>
-      </div> -->
-        <!-- News Box 3 -->
-        <!-- <div class="col-md-4">
-        <h5 class="bg-primary text-white text-center p-2">RECRUITMENT</h5>
-        <div class="news-box">
-          <p>
-            Integer nec urna lorem. Sed semper venenatis odio, at bibendum mi.
-            Vivamus imperdiet quam ut dui efficitur, id ultrices neque
-            vestibulum.
-          </p>
-         
+        <div class="col-md-4 text-center social-boxes">
+          <h5>Follow Us</h5>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
         </div>
-      </div> -->
       </div>
     </div>
-    <!-- footer -->
-    <footer class="footer mt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <h5>email Us</h5>
-            <ul class="list-unstyled">
-              <li>
-                <i class="fas fa-map-marker-alt"></i>&nbsp; A. B. Road
-                Bhawarkuwan Indore, MP, India
-              </li>
-              <li><i class="fas fa-phone"></i> &nbsp;+91-731-2970017</li>
-              <li><i class="fas fa-envelope"></i>&nbsp; gnspsc@gmail.com</li>
-            </ul>
-          </div>
-          <div class="col-md-4">
-            <h5>Quick Links</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="/Pages/AboutPage.html" class="nav-link">About</a>
-              </li>
-              <li>
-                <a href="/Pages/ReserchPage.html" class="nav-link">Research</a>
-              </li>
-              <li>
-                <a href="/Pages/facultypage.html" class="nav-link">Faculty</a>
-              </li>
-              <li><a href="/index.html" class="nav-link">Home</a></li>
-            </ul>
-          </div>
-          <div class="col-md-4 text-center social-boxes">
-            <h5>Follow Us</h5>
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-          </div>
-        </div>
-      </div>
-    </footer>
-    <script src="./JavascriptAll/HomePage.js"></script>
-    <!-- <script
+  </footer>
+  <!-- <script src="./JavascriptAll/newsevent.js"></script> -->
+  <!-- <script src="./JavascriptAll/newsevent.js"></script> -->
+  <script src="./JavascriptAll/HomePage.js"></script>
+  <!-- <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-WLB0NwRQ74C9aZSUjR5HEctHtsYo5RA3hcGq4K3mZfS5iuufwbBULa4nFf1RtK7p"
       crossorigin="anonymous"
     ></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-  </body>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/ -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

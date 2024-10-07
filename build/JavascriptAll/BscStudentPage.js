@@ -24,7 +24,7 @@ const getData = async () => {
     if (!data || data.length === 0) {
       StudentSection.innerHTML = `
     <div class="col-12 text-center">
-      <p class="text-muted">No faculty data available at the moment.</p>
+      <p class="text-muted">No Student data available at the moment.</p>
     </div>`;
       return null; 
     }
@@ -88,7 +88,7 @@ const setStudentUI = async () => {
     studentWithYear.innerHTML = `
       <div class="course-info" style="font-size: 1.25rem">
         <span>Bachelor of Science in Computer Science</span>
-        <span>${item.examYear}</span>
+        <span>${item.examYear-1}-${item.examYear}</span>
       </div>
       ${createYearSection("Student1stYear", "1st year")}
       ${createYearSection("Student2ndYear", "2nd year")}

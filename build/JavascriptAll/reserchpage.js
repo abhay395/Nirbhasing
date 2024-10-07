@@ -1,6 +1,20 @@
 const rsContainer = document.getElementById("rs-container");
 
+// Function to hide the loader
+function hideLoader() {
+  const loader = document.getElementById("loader");
+  if (loader) loader.remove();
+}
 
+
+
+// Function to display an error message in case of a failed fetch
+function displayErrorMessage() {
+  rsContainer.innerHTML = `
+    <div class="col-12 text-center">
+      <p class="text-danger">Error loading Research data. Please try again later.</p>
+    </div>`;
+}
 
 // access object
 const getData = async () => {
@@ -9,6 +23,7 @@ const getData = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
+    displayErrorMessage();
     return null;
   }
 };
@@ -26,12 +41,14 @@ const renderData = async () => {
     data = data[0];
     const { OngoingResearch, Publications, ResearchGroups } = data;
     rsContainer.innerHTML = `
-  ${generateCards(OngoingResearch[0]?.type, OngoingResearch, true)}
+  ${generateCards( 'Ongoing Research', OngoingResearch, true)}
   ${generateCards("Publications", Publications)}
   ${generateCards("Research Groups",ResearchGroups)}
 `;
   } catch (error) {
     console.log(error);
+    hideLoader();
+    displayErrorMessage();
   }
 };
 renderData();

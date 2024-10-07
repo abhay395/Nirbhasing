@@ -6,6 +6,20 @@ const tableTitle = document.querySelector("table #tableTitle");
 const tbody = document.querySelector("tbody");
 const date = new Date();
 
+// loader function 
+function hideLoader() {
+  const loader = document.getElementById("loader");
+  if (loader) loader.remove();
+}
+
+// Function to display an error message in case of a failed fetch
+function displayErrorMessage() {
+  headcontainer.innerHTML = `
+    <div class="col-12 text-center">
+      <p class="text-danger">Error loading  data. Please try again later.</p>
+    </div>`;
+}
+
 let session = `Jan ${date.getFullYear()} - Apr ${date.getFullYear()}`;
 if (date.getMonth() >= 6 && date.getMonth() <= 11) {
   session = `July ${date.getFullYear()} - Dec ${date.getFullYear()}`;
@@ -17,8 +31,10 @@ const getData = async () => {
   try {
     const response = await fetch(`/timeTable?session=${session}`);
     const data = await response.json();
+    hideLoader();
     return data;
   } catch (error) {
+    displayErrorMessage();
     return [];
   }
 };

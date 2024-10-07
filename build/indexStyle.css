@@ -102,20 +102,21 @@ body {
     font-size: 14px;
   }
 
-/*  footer */
-
-/* @keyframes scroll {
-    0% { top: 100%; }
-    100% { top: -100%; }
+/* newsbox */
+.new-badge {
+  animation: blinker 1.5s linear infinite; /* Blinking animation */
+  font-size: 12px;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 12px;
 }
 
-.news-item {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
-.slider{
-    height: 50vh; 
-}
+
 
 /* head img */
 .headof-img{
