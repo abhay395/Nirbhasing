@@ -7,9 +7,10 @@ const {
     updateHeadline,
     deleteHeadline
 } = require('../controller/Headline.controller');
+const {upload} = require('../middlewares/multer.middlewaresforPdf.js');
 
 // Route to create a new headline
-router.post('/', createHeadline);
+router.post('/',upload.single("pdf") ,createHeadline);
 
 // Route to get all headlines
 router.get('/', getHeadlines);
@@ -18,7 +19,7 @@ router.get('/', getHeadlines);
 router.get('/:id', getHeadlineById);
 
 // Route to update a headline by ID
-router.put('/:id', updateHeadline);
+router.put('/:id',upload.single("pdf") ,updateHeadline);
 
 // Route to delete a headline by ID
 router.delete('/:id', deleteHeadline);

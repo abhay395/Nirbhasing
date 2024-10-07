@@ -88,13 +88,17 @@
                     <option selected disabled>Select Type</option>
                     <option value="News">News</option>
                     <option value="Event">Event</option>
-                    <option value="Requritment">Requritment</option>
+                    <option value="Certificate">Certificate</option>
                   </select>
                 </div>
-              
+                <div class="mb-3" id="pdfInput">
+                  <label for="pdf"  class="form-label fw-bold">Pdf:</label>
+                  <input type="file" class="form-control border-primary" id="new-event-news-image" name="pdf"
+                    accept="pdf/*" >
+                </div>
                 <!-- Submit Button -->
                 <div class="mb-3">
-                  <button type="button" class="btn btn-primary w-100" id="submitDataButton">Add Data</button>
+                  <button type="submit" class="btn btn-primary w-100" id="submitDataButton">Add Data</button>
                 </div>
               </form>
               

@@ -10,8 +10,8 @@ const getPlacementStudents = async (req, res) => {
 };
 
 const createPlacementStudent = async (req, res) => {
-  const { name, company, package, year } = req.body;
-  if (!name || !company || !package || !year) {
+  const { name, company, package, passoutYear ,post} = req.body;
+  if (!name || !company || !package || !passoutYear || !post) {
     return res.status(400).json({ message: "All fields are required" });
   }
   if (!req?.file) {
@@ -27,12 +27,14 @@ const createPlacementStudent = async (req, res) => {
       name,
       company,
       package,
-      year,
+      passoutYear,
       image: result.secure_url,
+      post
     });
     await placement.save();
-    res.status(201).json(placement);
+    res.status(201).json({message:"Placement student created successfully",student:placement});
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 };
@@ -79,6 +81,7 @@ const deletePlacementStudent = async (req, res) => {
     }
     res.status(200).json(placement);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };

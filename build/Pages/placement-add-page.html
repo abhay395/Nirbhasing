@@ -76,23 +76,47 @@
             <!-- Form to Add New certificate -->
             <h2>Add New Student Placement</h2>
             <form id="addCertificateForm" class="p-4 bg-light shadow-sm rounded">
-                <!-- Description -->
+                
+                
+                <!-- placement student page -->
+                 <!-- name -->
                 <div class="mb-3">
-                    <label for="new-event-news-Description" class="form-label fw-bold">Description:</label>
-                    <textarea id="new-event-news-Description" class="form-control border-primary" rows="4"
-                        required></textarea>
+                    <label for="newName" class="form-label fw-bold">Name:</label>
+                    <input type="text" id="newName" class="form-control border-primary" required>
                 </div>
-
-
-
+                <!-- company -->
+                <div class="mb-3">
+                    <label for="newCompany" class="form-label fw-bold">Company Name:</label>
+                    <input type="text" id="newCompany" placeholder="Ex Google" class="form-control border-primary" required>
+                </div>
+                <div class="mb-3">
+                    <label for="post" class="form-label fw-bold"> Post:</label>
+                    <input type="text" id="post" placeholder="Ex software engineer" class="form-control border-primary" required>
+                </div>
+                <!-- passout year -->
+                <div class="mb-3">
+                    <label for="newPass-out-year" class="form-label fw-bold">Passout Year:</label>
+                    <input type="number" id="newPass-out-year" class="form-control border-primary" placeholder="like 2023" required>
+                </div>
+                <!-- package -->
+                <div class="mb-3">
+                    <label for="newAnnual-package" class="form-label fw-bold">Annual Package:</label>
+                    <input type="text" id="newAnnual-package" class="form-control border-primary" placeholder="enter package in LPA" required>
+                </div>
+                 <!-- image -->
+                 <div class="mb-3">
+                    <label for="newPlacedImage" class="form-label fw-bold">Image URL:</label>
+                    <input type="file" class="form-control border-primary" id="newPlacedImage" name="image"
+                        accept="image/*" required>
+                </div>
                 <!-- Submit Button -->
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary w-100" id="submitDataButton">Add Data</button>
+                    <button type="submit" class="btn btn-primary w-100" id="submitDataButton">Add Data</button>
                 </div>
             </form>
 
 
-            <!-- Certificate Data Tables -->
+            <!-- Placement Data Tables -->
             <div id="table-section">
 
 
@@ -100,10 +124,10 @@
         </div>
 
 
-
+        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="../JavascriptAll/admin.js"></script>
-
+        <script src="../JavascriptAll/PlacementAdd.js"></script>
 
 </body>
 

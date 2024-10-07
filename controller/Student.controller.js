@@ -4,7 +4,11 @@ const fs = require("fs");
 // Create and save a new student
 exports.create = async (req, res) => {
   try {
-    const { name, cgpa, course, year, rank, examYear } = req.body;
+    const { name, cgpa, course, year, examYear } = req.body;
+
+    if (!name || !cgpa || !course || !year || !examYear) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded" });
     }
@@ -21,7 +25,6 @@ exports.create = async (req, res) => {
       course,
       year,
       image: result.secure_url,
-      rank,
       examYear,
     });
     await newStudent.save();

@@ -36,7 +36,7 @@ const addResearch = async (req, res) => {
     await newResearch.save();
     res
       .status(201)
-      .json({ message: "Research added successfully", newResearch });
+      .json({ message: "Research added successfully", research:newResearch });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error adding research", error });
@@ -61,6 +61,7 @@ const getResearch = async (req, res) => {
                   title: "$title",
                   description: "$description",
                   image: "$image",
+                  _id: "$_id",
                 },
                 null,
               ],
@@ -73,6 +74,7 @@ const getResearch = async (req, res) => {
                 {
                   title: "$title",
                   description: "$description",
+                  _id: "$_id",
                 },
                 null,
               ],
@@ -85,6 +87,7 @@ const getResearch = async (req, res) => {
                 {
                   title: "$title",
                   description: "$description",
+                  _id: "$_id",
                 },
                 null,
               ],
@@ -136,7 +139,7 @@ const deleteResearch = async (req, res) => {
   try {
     // Check if the ID is provided
     const { id } = req.params;
-    if (id) {
+    if (!id) {
       return res.status(400).json({ message: "Research ID is required" });
     }
     const result = await Research.findByIdAndDelete(id);
